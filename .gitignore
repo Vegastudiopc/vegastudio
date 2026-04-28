@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS junk
+Thumbs.db
+desktop.ini
+
+# Node (if you ever add tooling)
+node_modules/
+
+# Source masters (keep the published copy only)
+# Comment the line below out if you want to track these in the repo
+# VegaStudio_Deck_v1.html
+# VegaStudio_VideoSpec_v1.md
