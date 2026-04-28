@@ -557,11 +557,56 @@
     color:var(--ink-dim);font-size:12px;line-height:1.5;margin-top:10px;
     max-width:26ch;
   }
-  @media (max-width:900px){
-    .team-cluster{flex-wrap:wrap;justify-content:center;gap:30px}
-    .team-cluster .member{margin-top:0 !important;flex:0 1 calc(50% - 18px)}
-    .team-cluster .member .photo{width:clamp(140px,40vw,200px) !important}
+  /* TABLET 700-1099px — abandon the scatter, switch to a clean equal 5-col grid */
+  @media (max-width:1099px) and (min-width:700px){
+    .team-cluster{
+      display:grid;grid-template-columns:repeat(5,1fr);
+      align-items:start;justify-content:initial;gap:24px 14px;padding:0;
+    }
+    .team-cluster .member{
+      margin-top:0 !important;flex:none;min-width:0;
+      align-items:center;text-align:center;
+    }
+    .team-cluster .member .photo{
+      width:100% !important;max-width:130px;margin:0 auto;
+      box-shadow:0 14px 36px rgba(0,0,0,.55);
+    }
+    /* Keep ring treatment on members 1 + 3 in tablet view */
+    .team-cluster .member:nth-child(1) .photo,
+    .team-cluster .member:nth-child(3) .photo{
+      box-shadow:0 0 0 5px rgba(229,168,181,.22), 0 0 0 2px var(--accent), 0 14px 30px rgba(0,0,0,.55);
+    }
+    .team-cluster .member h4{font-size:14px;margin-top:14px}
+    .team-cluster .member .role{font-size:9px;letter-spacing:.2em}
+    .team-cluster .member .blurb{font-size:11.5px;line-height:1.45;max-width:100%;margin-top:8px}
     .team-cluster .bg-decor{display:none}
+  }
+
+  /* PHONE ≤699px — 2-col wrap */
+  @media (max-width:699px){
+    .team-cluster{
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:start;justify-content:initial;gap:28px 16px;padding:0;
+    }
+    .team-cluster .member{margin-top:0 !important;flex:none;min-width:0;align-items:center;text-align:center}
+    .team-cluster .member .photo{
+      width:100% !important;max-width:130px;margin:0 auto;
+      box-shadow:0 14px 30px rgba(0,0,0,.55);
+    }
+    .team-cluster .member:nth-child(1) .photo,
+    .team-cluster .member:nth-child(3) .photo{
+      box-shadow:0 0 0 4px rgba(229,168,181,.22), 0 0 0 2px var(--accent), 0 12px 26px rgba(0,0,0,.55);
+    }
+    .team-cluster .member h4{font-size:14px;margin-top:12px}
+    .team-cluster .member .role{font-size:9px;letter-spacing:.2em}
+    .team-cluster .member .blurb{font-size:11.5px;line-height:1.45;max-width:100%;margin-top:8px}
+    .team-cluster .bg-decor{display:none}
+  }
+
+  /* TINY ≤380px — 1-col stack */
+  @media (max-width:380px){
+    .team-cluster{grid-template-columns:1fr;gap:24px}
+    .team-cluster .member .photo{max-width:160px}
   }
 
   /* -------- Founder photo (Why Us slide) -------- */
@@ -629,6 +674,147 @@
     .deck{height:auto;overflow:visible}
     .slide{min-height:100vh;page-break-after:always}
     .nav-dots,.hint,.progress{display:none}
+  }
+
+  /* =========================================================
+     MOBILE — comprehensive responsive pass (≤ 820px)
+     Strategy: let slides grow vertically (no fixed 100vh), scale type down,
+     stack split layouts, hide nav-dots + keyboard hint (touch device),
+     trim chrome padding, soften animations, ensure no content overlaps.
+     ========================================================= */
+  @media (max-width: 820px){
+    :root{
+      --slide-pad: clamp(20px, 5vw, 36px);
+    }
+
+    /* Allow slides to size to content on mobile (avoid 100vh overflow w/ browser chrome) */
+    .deck{scroll-snap-type:none;height:auto;overflow-y:visible}
+    body{height:auto;overflow-y:auto}
+    .slide{
+      height:auto;min-height:100dvh;max-height:none;
+      padding-bottom: calc(var(--slide-pad) + 60px);
+    }
+
+    /* Hide desktop nav affordances on touch devices */
+    .nav-dots, .hint{display:none}
+    .progress{height:3px}
+
+    /* Section dividers — shrink the giant words so they don't overflow */
+    .section-tag{font-size:clamp(48px, 14vw, 90px)}
+    .s-section .num{font-size:11px;letter-spacing:.2em}
+
+    /* Big statement headlines */
+    .s-statement{justify-content:flex-start;padding-top:14vh}
+    .s-statement .stmt{font-size:clamp(28px, 8vw, 48px); line-height:1.02}
+    .s-statement .stmt-small{font-size:clamp(15px, 4vw, 22px); line-height:1.35; max-width:100%}
+
+    /* Cover + end V-mark */
+    .v-mark{width:clamp(140px, 38vw, 220px) !important}
+    .s-end .v-mark{width:clamp(120px, 32vw, 180px) !important}
+    .s-end h1{font-size:clamp(32px, 8vw, 48px)}
+    .s-end .links{flex-direction:column;gap:14px}
+
+    /* Display headline scaling */
+    .display{font-size:clamp(30px, 8vw, 48px) !important}
+    .jumbo{font-size:clamp(40px, 11vw, 64px)}
+
+    /* Market stats on Slide 7 — collapse to 2 cols */
+    .stats{grid-template-columns:repeat(2,1fr); gap:18px}
+    .stat{padding-left:14px}
+    .stat .num{font-size:clamp(34px, 9vw, 48px)}
+    .stat p{font-size:12px}
+
+    /* Flywheel: stack copy above SVG */
+    .flywheel{grid-template-columns:1fr;gap:24px}
+    .fw-copy h3{font-size:clamp(22px, 6vw, 32px)}
+    .fw-copy p{font-size:14px}
+    .fw-copy .key{grid-template-columns:1fr 1fr;gap:10px}
+    .fw-copy .key li{font-size:12px}
+    .fw-svg{max-width:340px}
+
+    /* Gen-Synth full-bleed hero — scale headline */
+    .gs-lock h2{font-size:clamp(38px, 10vw, 64px) !important}
+    .gs-lock p{font-size:14px}
+    .gs-badge{top:auto;bottom:96px;right:var(--slide-pad);font-size:10px}
+
+    /* Gen-Synth split slides — copy above media */
+    .s-split{grid-template-columns:1fr; gap:20px; align-items:flex-start}
+    .s-split .copy h3{font-size:clamp(26px, 7vw, 40px)}
+    .s-split .copy p{font-size:14px}
+    .media-card.framed{border-radius:14px; aspect-ratio:16/10}
+
+    /* Slide 12 left-vignette: keep readable on mobile, shrink video to 100% */
+    .s-genSynth.vignette-left .gs-hero video{width:100%;object-position:center}
+    .s-genSynth.vignette-left .gs-hero::after{
+      background:linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.7) 60%, rgba(0,0,0,.92) 100%);
+    }
+
+    /* Traction (Slide 11) — stack 1 col, smaller numbers */
+    .traction{grid-template-columns:1fr;gap:18px}
+    .traction .box{padding-left:18px}
+    .traction .box .k{font-size:clamp(56px, 16vw, 96px)}
+    .traction .box h4{font-size:18px}
+
+    /* Community gallery — reuse existing 2-col mobile rule, just tighten */
+    .gallery{grid-template-columns:1fr 1fr; gap:8px}
+    .gallery .photo:nth-child(4){min-height:200px}
+
+    /* Slate cards — 1 col on small phones, 2 on tablets */
+    .slate{grid-template-columns:1fr;gap:14px}
+    .slate .ip{min-height:280px;padding:18px}
+    .slate .ip h3{font-size:26px}
+
+    /* Pipeline: 2x2 cards instead of 4 */
+    .pipe-cards{grid-template-columns:repeat(2,1fr); gap:12px}
+    .pipeline-h2{font-size:clamp(28px, 8vw, 44px) !important}
+    .branch-svg{display:none}
+    .pipe-tree{margin-top:8px}
+    .pipe-caption{font-size:13px; line-height:1.45}
+    .pipe-card{padding:14px}
+    .pipe-cat{font-size:11px;letter-spacing:.28em}
+
+    /* Proof Wall — collapse 5-cell mosaic to a 2-col stack */
+    .proof{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:8px}
+    .proof .cell{min-height:180px;padding:12px}
+    .proof .cell.hero{grid-column:1 / -1; grid-row:1 / 2}
+    .proof .cell .brand{font-size:18px}
+    .proof .cell .role{font-size:9px}
+
+    /* Team cluster handled by its own tiered media queries above */
+
+    /* The Ask — stack everything */
+    .ask{grid-template-columns:1fr; gap:32px}
+    .ask .amount{font-size:clamp(56px, 16vw, 96px)}
+    .ask .meta{grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+    .ask .meta > div{padding-left:12px}
+    .donut{width:min(70%, 260px)}
+    .legend{font-size:12px;max-width:100%}
+
+    /* Chrome footer — slimmer on mobile */
+    .chrome{padding:10px var(--slide-pad);min-height:38px;font-size:9px;letter-spacing:.16em}
+    .chrome .c-center{display:none}  /* drop "VEGA STUDIO" center text on narrow screens */
+
+    /* Slide 3 background video — keep but lighten the vignette so video is visible */
+    .slide-bg-video::after{
+      background:
+        radial-gradient(60% 80% at 30% 60%, rgba(0,0,0,.25), rgba(0,0,0,.85) 80%),
+        linear-gradient(0deg, rgba(0,0,0,.7), transparent 55%);
+    }
+
+    /* Reduce-motion friendly on mobile — slow down transitions slightly */
+    .reveal, .reveal-word{transition-duration:.65s}
+  }
+
+  /* Very narrow phones (≤ 380px) — extra type squeeze (team handled by its own rule above) */
+  @media (max-width: 380px){
+    .s-statement .stmt{font-size:clamp(24px, 8vw, 36px)}
+    .display{font-size:clamp(26px, 8vw, 38px) !important}
+    .section-tag{font-size:clamp(40px, 14vw, 64px)}
+    .stats{grid-template-columns:1fr}
+    .pipe-cards{grid-template-columns:1fr}
+    .proof{grid-template-columns:1fr;grid-template-rows:auto}
+    .proof .cell.hero{grid-column:1}
+    .ask .meta{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -852,7 +1038,7 @@
     <div class="copy reveal">
       <p class="eyebrow" style="color:var(--genSynth-1)">The World</p>
       <h3>A diaspora city in <span style="color:var(--genSynth-1);font-style:italic;font-family:'DM Serif Display';font-weight:400">2125</span>.</h3>
-      <p>Gen-Synth follows a crew of style-native rebels navigating a surveillance-state metropolis. The pilot, <b>built in 48 hours</b>, uses ChatGPT for story, image models for visuals, Runway for animation, and After Effects for finish.</p>
+      <p>Gen-Synth follows a crew of style-native rebels navigating a surveillance-state metropolis. The pilot, <b>built in 48 hours</b>, was crafted entirely on our native AI workflows — designed for reactive, dynamic storytelling that adapts as the universe grows.</p>
       <div class="tag" style="margin-top:22px">Pilot · 48hr Build</div>
     </div>
     <div class="media-card framed reveal delay-2">
