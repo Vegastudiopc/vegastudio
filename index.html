@@ -205,10 +205,87 @@
     aspect-ratio:16/10;
   }
   .media-card .tag{position:absolute;left:12px;top:12px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.6);padding:6px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.25)}
+  /* Gen-Synth icon perimeter badge (Slide 12) — sits OUTSIDE the video frame */
+  .media-frame{ position:relative; }
+  .media-frame .gs-icon-perimeter{
+    position:absolute;
+    left:-3%;
+    bottom:-9%;
+    width:28%;
+    max-width:180px;
+    aspect-ratio:1/1;
+    object-fit:contain;
+    z-index:4;
+    border-radius:18px;
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,.65));
+  }
+  @media (max-width:900px){
+    .media-frame .gs-icon-perimeter{left:-2%;bottom:-12%;width:32%;max-width:140px}
+  }
   .media-placeholder{position:absolute;inset:0;display:grid;place-items:center;background:repeating-linear-gradient(-45deg,#111,#111 10px,#0a0a0a 10px,#0a0a0a 20px);color:var(--ink-dim);font-size:12px;letter-spacing:.28em;text-transform:uppercase}
   .media-placeholder::before{content:"[video]";position:absolute;top:12px;right:12px;color:var(--accent);font-size:10px;letter-spacing:.22em}
 
   @media (max-width:900px){.s-split{grid-template-columns:1fr}}
+
+  /* -------- Layered media stack (Slide 10 — Gen-Synth World)
+     Video is the hero, fully visible. Other assets decorate the perimeter. -------- */
+  .media-stack{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/12;
+    min-height: 64vh;
+  }
+  .media-stack .ms-city{
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%);
+    width:78%;
+    aspect-ratio:16/9;
+    border-radius:18px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 24px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
+    z-index:2;
+  }
+  .media-stack .ms-city video,
+  .media-stack .ms-city img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
+  /* Breeze turnaround — anchored to bottom-left perimeter of the video */
+  .media-stack .ms-breeze{
+    position:absolute;
+    left:-2%;
+    bottom:-4%;
+    width:32%;
+    z-index:3;
+    filter: drop-shadow(0 18px 28px rgba(0,0,0,.6));
+    pointer-events:none;
+  }
+  .media-stack .ms-breeze img{
+    width:100%; height:auto; display:block;
+  }
+  /* Girl GIF — anchored to top-right perimeter, pops out of the video edge */
+  .media-stack .ms-girl{
+    position:absolute;
+    right:-3%;
+    top:4%;
+    width:22%;
+    aspect-ratio: 9/16;
+    z-index:3;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 18px 36px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.1);
+    background:#000;
+  }
+  .media-stack .ms-girl img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
+  @media (max-width:900px){
+    .media-stack{aspect-ratio:auto; min-height: 0;}
+    .media-stack .ms-city{position:relative;top:auto;left:auto;transform:none;width:100%;}
+    .media-stack .ms-breeze{left:-2%;bottom:-2%;width:30%}
+    .media-stack .ms-girl{right:-2%;top:-2%;width:26%}
+  }
 
   /* -------- Traction metrics (Gen-Synth) -------- */
   .traction{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;align-items:stretch;flex:1}
@@ -869,10 +946,9 @@
         <source src="assets/videos/slide3-bg.mp4" type="video/mp4" />
       </video>
     </div>
-    <div>
-      <p class="eyebrow reveal">Vega Studio</p>
-      <h2 class="stmt reveal delay-1">Vega is an <span class="coral">AI-native studio</span> for the IP era.</h2>
-      <p class="stmt-small reveal delay-3">We create <b>original storytelling and worldbuilding</b> designed to live across film, gaming, AR, and physical product. Built on agentic AI pipelines that meaningfully accelerate creative production.</p>
+    <div style="align-self:flex-end;max-width:46ch;text-align:right">
+      <h2 class="stmt reveal delay-1" style="max-width:none;line-height:1.05">Vega is an <span class="coral">AI-native studio</span> for the IP era.</h2>
+      <p class="stmt-small reveal delay-3" style="max-width:none;font-size:clamp(14px,1.05vw,18px);font-weight:500;line-height:1.55;margin-top:22px;color:rgba(255,255,255,.78);letter-spacing:.005em">We create <b style="color:#fff">original storytelling and worldbuilding</b> designed to live across film, gaming, AR, and physical product. Built on agentic AI pipelines that meaningfully accelerate creative production.</p>
     </div>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>03 / 22</span></div>
   </section>
@@ -896,111 +972,111 @@
   </section>
 
   <!-- ==============================================
-       SLIDE 06 — SECTION: THE OPPORTUNITY
+       SLIDE 17 — SECTION: THE ENGINE
        ============================================== -->
-  <section class="slide s-section" data-title="The Opportunity" data-section="ACT 2">
-    <span class="num reveal">THE OPPORTUNITY</span>
+  <section class="slide s-section" data-title="The Engine" data-section="ACT 5">
+    <span class="num reveal">THE ENGINE</span>
     <h2 class="section-tag reveal">
       <span class="reveal-word">THE</span>
-      <span class="reveal-word delay-1">OPPORTUNITY</span>
+      <span class="reveal-word delay-1">ENGINE</span>
     </h2>
+    <p class="reveal delay-2 dim" style="max-width:46ch;margin-top:20px;font-size:18px;line-height:1.5">
+      The studio that funds the IP. Trusted by the biggest brands in the world.
+    </p>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>05 / 22</span></div>
   </section>
 
   <!-- ==============================================
-       SLIDE 07 — MARKET STATS
+       SLIDE 18 — AGENTIC CREATIVE PIPELINE (matches PDF reference)
        ============================================== -->
-  <section class="slide" data-title="Market" data-section="ACT 2">
-    <p class="eyebrow reveal">The AI + IP convergence</p>
-    <h2 class="display reveal delay-1" style="margin-top:14px;max-width:14ch">A <span class="coral">paradigm shift</span>, not a trend.</h2>
-    <p class="reveal delay-2" style="max-width:60ch;margin-top:24px;color:var(--ink-dim);font-size:17px;line-height:1.55">
-      Generative AI has collapsed the cost of world-building. The IP that wins the next decade will be built natively for transmedia — not licensed into it.
-      <span class="dim">/ All figures directional · sources available on request.</span>
-    </p>
+  <section class="slide flex-col" data-title="Agentic Pipeline" data-section="ACT 5">
+    <p class="eyebrow reveal" style="margin-bottom:6px">Direct partnerships · Cutting-edge access</p>
+    <h2 class="pipeline-h2 reveal delay-1"><em>Agentic</em> Creative Pipeline</h2>
 
-    <div class="stats reveal delay-3">
-      <div class="stat"><div class="num coral">$2.4T</div><p>Global entertainment &amp; media market by 2029 (PwC).</p></div>
-      <div class="stat"><div class="num mint">10–50×</div><p>Cost + speed reduction from AI-native creative pipelines.</p></div>
-      <div class="stat"><div class="num yellow">$200B</div><p>Global IP licensing market, growing 8% YoY.</p></div>
-      <div class="stat"><div class="num">88%</div><p>of Gen-Z expect branded IP to live across game + social + physical.</p></div>
+    <div class="pipe-tree reveal delay-1">
+      <div class="ai-agent-pill">AI AGENT</div>
+      <svg class="branch-svg" viewBox="0 0 1100 60" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Vertical drop from pill, horizontal trunk, then four drops to each card -->
+        <path d="M550,0 L550,18 L137.5,18 L137.5,58 M412.5,18 L412.5,58 M687.5,18 L687.5,58 M962.5,18 L962.5,58 M137.5,18 L962.5,18"/>
+      </svg>
     </div>
 
-    <div class="spacer"></div>
+    <div class="pipe-cards reveal delay-2">
+      <article class="pipe-card">
+        <div class="pipe-cat">TEXT</div>
+        <img class="card-img" src="assets/images/pipe-text.png" alt="Text AI partners — OpenAI, Claude, Gemini, Mistral, Perplexity">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">IMAGE</div>
+        <img class="card-img" src="assets/images/pipe-image.png" alt="Image AI partners — Firefly, Midjourney, DALL·E, Photoshop">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">VIDEO</div>
+        <img class="card-img" src="assets/images/pipe-video.png" alt="Video AI partners — After Effects, Runway, Luma, Pika">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">SOUND</div>
+        <img class="card-img" src="assets/images/pipe-sound.png" alt="Sound AI partners — ElevenLabs, Suno">
+      </article>
+    </div>
+
+    <p class="pipe-caption reveal delay-3">Personal partnerships with every lab on this page — early access, beta features, and a seat at the table on the future of <em>agentic</em> creative production.</p>
+
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>06 / 22</span></div>
   </section>
 
   <!-- ==============================================
-       SLIDE 08 — THE IP FLYWHEEL (animated diagram)
+       SLIDE 19 — PROOF WALL (compressed brand work)
        ============================================== -->
-  <section class="slide" data-title="The IP Flywheel" data-section="ACT 2">
-    <p class="eyebrow reveal">Our thesis</p>
-    <h2 class="display reveal delay-1" style="margin-top:12px;max-width:18ch">The <span class="coral">IP Flywheel.</span></h2>
+  <section class="slide flex-col" data-title="Proof Wall" data-section="ACT 5">
+    <p class="eyebrow reveal">The proof</p>
+    <h2 class="display reveal delay-1" style="max-width:18ch;margin-top:8px">Trusted by the <span class="coral">biggest brands.</span></h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:14px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Our studio services have powered campaigns for the world's leading brands — the revenue engine that funds the IP slate.
+    </p>
 
-    <div class="flywheel reveal delay-2" style="margin-top:30px">
-      <div class="fw-copy">
-        <h3>One IP. Every distribution channel.</h3>
-        <p>Our flywheel puts <b>original IP at the core</b> and pushes it across five distribution surfaces — film, game, AR, product, music. Each surface generates its own revenue stream and audience data that flows back into the IP. Studio services fund R&amp;D. The IP compounds.</p>
-
-        <ul class="key">
-          <li><b>Anchor</b><br>Original IP at the core</li>
-          <li><b>Surfaces</b><br>5 distribution channels</li>
-          <li><b>Engine</b><br>AI-native production</li>
-          <li><b>Flywheel</b><br>Distribution → revenue → IP</li>
-        </ul>
+    <div class="proof reveal delay-3" style="margin-top:26px">
+      <div class="cell hero">
+        <video autoplay muted loop playsinline><source src="assets/videos/jordan-brand.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>JORDAN · FLAGSHIP RETAIL CGI</span></div>
+        <div>
+          <div class="brand">Jordan Brand</div>
+          <div class="role">CGI · Retail · Worldbuilding</div>
+        </div>
       </div>
-
-      <!-- Flywheel SVG -->
-      <svg class="fw-svg" viewBox="0 0 560 560" aria-label="IP Flywheel diagram">
-        <!-- Rings -->
-        <circle class="ring draw" cx="280" cy="280" r="240" />
-        <circle class="ring draw delay-1" cx="280" cy="280" r="170" />
-        <circle class="orbit draw delay-2" cx="280" cy="280" r="205" />
-
-        <!-- Spokes (5) -->
-        <g stroke="currentColor">
-          <line class="spoke draw delay-1" x1="280" y1="280" x2="280" y2="40" />
-          <line class="spoke draw delay-2" x1="280" y1="280" x2="508" y2="207" />
-          <line class="spoke draw delay-3" x1="280" y1="280" x2="421" y2="505" />
-          <line class="spoke draw delay-4" x1="280" y1="280" x2="139" y2="505" />
-          <line class="spoke draw delay-5" x1="280" y1="280" x2="52" y2="207" />
-        </g>
-
-        <!-- Surface nodes -->
-        <g>
-          <circle class="node" cx="280" cy="60" r="36" />
-          <text x="280" y="65" text-anchor="middle" font-size="14">FILM</text>
-
-          <circle class="node" cx="494" cy="211" r="36" />
-          <text x="494" y="216" text-anchor="middle" font-size="14">GAME</text>
-
-          <circle class="node" cx="410" cy="478" r="36" />
-          <text x="410" y="483" text-anchor="middle" font-size="14">AR/XR</text>
-
-          <circle class="node" cx="150" cy="478" r="36" />
-          <text x="150" y="483" text-anchor="middle" font-size="14">IRL</text>
-
-          <circle class="node" cx="66" cy="211" r="36" />
-          <text x="66" y="216" text-anchor="middle" font-size="14">SOUND</text>
-        </g>
-
-        <!-- Core IP -->
-        <circle class="node-core" cx="280" cy="280" r="72" />
-        <text x="280" y="275" text-anchor="middle" font-size="16" font-weight="900" fill="#000">ORIGINAL</text>
-        <text x="280" y="294" text-anchor="middle" font-size="16" font-weight="900" fill="#000">IP</text>
-
-      </svg>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/nike-airmax.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>NIKE AIRMAX</span></div>
+        <div><div class="brand">Nike Airmax</div><div class="role">AI · CGI Film</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/hov.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>BOOK OF HOV</span></div>
+        <div><div class="brand">Book of HOV</div><div class="role">Cultural Install</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/amazon-drake.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>AMAZON + DRAKE</span></div>
+        <div><div class="brand">Amazon × Drake</div><div class="role">Retail · Drop</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/mcdonalds.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>MCDONALDS · HBCU CAMPAIGN</span></div>
+        <div><div class="brand">McDonald's</div><div class="role">Culture · Film</div></div>
+      </div>
     </div>
+
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>07 / 22</span></div>
   </section>
 
   <!-- ==============================================
        SLIDE 09 — SECTION: THE FLAGSHIP
        ============================================== -->
-  <section class="slide s-section" data-title="The Flagship" data-section="ACT 3">
-    <span class="num reveal">THE FLAGSHIP</span>
+  <section class="slide s-section" data-title="The IP" data-section="ACT 3">
+    <span class="num reveal">THE IP</span>
     <h2 class="section-tag reveal">
       <span class="reveal-word">THE</span>
-      <span class="reveal-word delay-1">FLAGSHIP</span>
+      <span class="reveal-word delay-1">IP</span>
     </h2>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>08 / 22</span></div>
   </section>
@@ -1041,10 +1117,16 @@
       <p>Gen-Synth follows a crew of style-native rebels navigating a surveillance-state metropolis. The pilot, <b>built in 48 hours</b>, was crafted entirely on our native AI workflows — designed for reactive, dynamic storytelling that adapts as the universe grows.</p>
       <div class="tag" style="margin-top:22px">Pilot · 48hr Build</div>
     </div>
-    <div class="media-card framed reveal delay-2">
-      <video autoplay muted loop playsinline><source src="assets/videos/gensynth-pilot.mp4" type="video/mp4" /></video>
-      <div class="media-placeholder"><span>GEN-SYNTH PILOT · ANIME STILL</span></div>
-      <div class="tag">Pilot · 48hr Build</div>
+    <div class="media-stack reveal delay-2">
+      <div class="ms-city">
+        <video autoplay muted loop playsinline><source src="assets/videos/gensynth-pilot.mp4" type="video/mp4" /></video>
+      </div>
+      <div class="ms-breeze">
+        <img src="assets/images/breeze-style.png" alt="Breeze — character style turnaround" />
+      </div>
+      <div class="ms-girl">
+        <img src="assets/images/girl.gif" alt="Gen-Synth pilot — protagonist" />
+      </div>
     </div>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>10 / 22</span></div>
   </section>
@@ -1067,13 +1149,8 @@
         <p class="reveal delay-5">London · Washington · Atlanta · Baltimore</p>
       </div>
       <div class="box">
-        <div class="k yellow reveal delay-4">01</div>
-        <h4 class="reveal delay-5">Industry Nomination</h4>
-        <p class="reveal delay-6">Runway Gen:48 Official Finalist, 3rd Edition</p>
-      </div>
-      <div class="box">
-        <div class="k mint reveal delay-5">100K+</div>
-        <h4 class="reveal delay-6">Organic Impressions</h4>
+        <div class="k mint reveal delay-4">100K+</div>
+        <h4 class="reveal delay-5">Organic Impressions</h4>
         <p class="reveal delay-6">Across editorial, LinkedIn, TikTok, and partner channels</p>
       </div>
     </div>
@@ -1104,10 +1181,13 @@
         </div>
       </div>
     </div>
-    <div class="media-card framed reveal delay-2">
-      <video autoplay muted loop playsinline><source src="assets/videos/gensynth-game.mp4" type="video/mp4" /></video>
-      <div class="media-placeholder"><span>GEN-SYNTH MOBILE · CREATOR MARKETPLACE</span></div>
-      <div class="tag">Mobile · Marketplace</div>
+    <div class="media-frame reveal delay-2">
+      <div class="media-card framed">
+        <video autoplay muted loop playsinline><source src="assets/videos/gensynth-game.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>GEN-SYNTH MOBILE · CREATOR MARKETPLACE</span></div>
+        <div class="tag">Mobile · Marketplace</div>
+      </div>
+      <img class="gs-icon-perimeter" src="assets/images/gen-synth-icon.png" alt="Gen-Synth icon" />
     </div>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>12 / 22</span></div>
   </section>
@@ -1220,100 +1300,100 @@
   </section>
 
   <!-- ==============================================
-       SLIDE 17 — SECTION: THE ENGINE
+       SLIDE 06 — SECTION: THE OPPORTUNITY
        ============================================== -->
-  <section class="slide s-section" data-title="The Engine" data-section="ACT 5">
-    <span class="num reveal">THE ENGINE</span>
+  <section class="slide s-section" data-title="The Opportunity" data-section="ACT 2">
+    <span class="num reveal">THE OPPORTUNITY</span>
     <h2 class="section-tag reveal">
       <span class="reveal-word">THE</span>
-      <span class="reveal-word delay-1">ENGINE</span>
+      <span class="reveal-word delay-1">OPPORTUNITY</span>
     </h2>
-    <p class="reveal delay-2 dim" style="max-width:46ch;margin-top:20px;font-size:18px;line-height:1.5">
-      The studio that funds the IP. Trusted by the biggest brands in the world.
-    </p>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>16 / 22</span></div>
   </section>
 
   <!-- ==============================================
-       SLIDE 18 — AGENTIC CREATIVE PIPELINE (matches PDF reference)
+       SLIDE 07 — MARKET STATS
        ============================================== -->
-  <section class="slide flex-col" data-title="Agentic Pipeline" data-section="ACT 5">
-    <p class="eyebrow reveal" style="margin-bottom:6px">Direct partnerships · Cutting-edge access</p>
-    <h2 class="pipeline-h2 reveal delay-1"><em>Agentic</em> Creative Pipeline</h2>
+  <section class="slide" data-title="Market" data-section="ACT 2">
+    <p class="eyebrow reveal">The AI + IP convergence</p>
+    <h2 class="display reveal delay-1" style="margin-top:14px;max-width:14ch">A <span class="coral">paradigm shift</span>, not a trend.</h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:24px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Generative AI has collapsed the cost of world-building. The IP that wins the next decade will be built natively for transmedia — not licensed into it.
+      <span class="dim">/ All figures directional · sources available on request.</span>
+    </p>
 
-    <div class="pipe-tree reveal delay-1">
-      <div class="ai-agent-pill">AI AGENT</div>
-      <svg class="branch-svg" viewBox="0 0 1100 60" preserveAspectRatio="none" aria-hidden="true">
-        <!-- Vertical drop from pill, horizontal trunk, then four drops to each card -->
-        <path d="M550,0 L550,18 L137.5,18 L137.5,58 M412.5,18 L412.5,58 M687.5,18 L687.5,58 M962.5,18 L962.5,58 M137.5,18 L962.5,18"/>
-      </svg>
+    <div class="stats reveal delay-3">
+      <div class="stat"><div class="num coral">$2.4T</div><p>Global entertainment &amp; media market by 2029 (PwC).</p></div>
+      <div class="stat"><div class="num mint">10–50×</div><p>Cost + speed reduction from AI-native creative pipelines.</p></div>
+      <div class="stat"><div class="num yellow">$200B</div><p>Global IP licensing market, growing 8% YoY.</p></div>
+      <div class="stat"><div class="num">88%</div><p>of Gen-Z expect branded IP to live across game + social + physical.</p></div>
     </div>
 
-    <div class="pipe-cards reveal delay-2">
-      <article class="pipe-card">
-        <div class="pipe-cat">TEXT</div>
-        <img class="card-img" src="assets/images/pipe-text.png" alt="Text AI partners — OpenAI, Claude, Gemini, Mistral, Perplexity">
-      </article>
-      <article class="pipe-card">
-        <div class="pipe-cat">IMAGE</div>
-        <img class="card-img" src="assets/images/pipe-image.png" alt="Image AI partners — Firefly, Midjourney, DALL·E, Photoshop">
-      </article>
-      <article class="pipe-card">
-        <div class="pipe-cat">VIDEO</div>
-        <img class="card-img" src="assets/images/pipe-video.png" alt="Video AI partners — After Effects, Runway, Luma, Pika">
-      </article>
-      <article class="pipe-card">
-        <div class="pipe-cat">SOUND</div>
-        <img class="card-img" src="assets/images/pipe-sound.png" alt="Sound AI partners — ElevenLabs, Suno">
-      </article>
-    </div>
-
-    <p class="pipe-caption reveal delay-3">Personal partnerships with every lab on this page — early access, beta features, and a seat at the table on the future of <em>agentic</em> creative production.</p>
-
+    <div class="spacer"></div>
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>17 / 22</span></div>
   </section>
 
   <!-- ==============================================
-       SLIDE 19 — PROOF WALL (compressed brand work)
+       SLIDE 08 — THE IP FLYWHEEL (animated diagram)
        ============================================== -->
-  <section class="slide flex-col" data-title="Proof Wall" data-section="ACT 5">
-    <p class="eyebrow reveal">The proof</p>
-    <h2 class="display reveal delay-1" style="max-width:18ch;margin-top:8px">Trusted by the <span class="coral">biggest brands.</span></h2>
-    <p class="reveal delay-2" style="max-width:60ch;margin-top:14px;color:var(--ink-dim);font-size:17px;line-height:1.55">
-      Our studio services have powered campaigns for the world's leading brands — the revenue engine that funds the IP slate.
-    </p>
+  <section class="slide" data-title="The IP Flywheel" data-section="ACT 2">
+    <p class="eyebrow reveal">Our thesis</p>
+    <h2 class="display reveal delay-1" style="margin-top:12px;max-width:18ch">The <span class="coral">IP Flywheel.</span></h2>
 
-    <div class="proof reveal delay-3" style="margin-top:26px">
-      <div class="cell hero">
-        <video autoplay muted loop playsinline><source src="assets/videos/jordan-brand.mp4" type="video/mp4" /></video>
-        <div class="media-placeholder"><span>JORDAN · FLAGSHIP RETAIL CGI</span></div>
-        <div>
-          <div class="brand">Jordan Brand</div>
-          <div class="role">CGI · Retail · Worldbuilding</div>
-        </div>
+    <div class="flywheel reveal delay-2" style="margin-top:30px">
+      <div class="fw-copy">
+        <h3>One IP. Every distribution channel.</h3>
+        <p>Our flywheel puts <b>original IP at the core</b> and pushes it across five distribution surfaces — film, game, AR, product, music. Each surface generates its own revenue stream and audience data that flows back into the IP. Studio services fund R&amp;D. The IP compounds.</p>
+
+        <ul class="key">
+          <li><b>Anchor</b><br>Original IP at the core</li>
+          <li><b>Surfaces</b><br>5 distribution channels</li>
+          <li><b>Engine</b><br>AI-native production</li>
+          <li><b>Flywheel</b><br>Distribution → revenue → IP</li>
+        </ul>
       </div>
-      <div class="cell">
-        <video autoplay muted loop playsinline><source src="assets/videos/nike-airmax.mp4" type="video/mp4" /></video>
-        <div class="media-placeholder"><span>NIKE AIRMAX</span></div>
-        <div><div class="brand">Nike Airmax</div><div class="role">AI · CGI Film</div></div>
-      </div>
-      <div class="cell">
-        <video autoplay muted loop playsinline><source src="assets/videos/hov.mp4" type="video/mp4" /></video>
-        <div class="media-placeholder"><span>BOOK OF HOV</span></div>
-        <div><div class="brand">Book of HOV</div><div class="role">Cultural Install</div></div>
-      </div>
-      <div class="cell">
-        <video autoplay muted loop playsinline><source src="assets/videos/amazon-drake.mp4" type="video/mp4" /></video>
-        <div class="media-placeholder"><span>AMAZON + DRAKE</span></div>
-        <div><div class="brand">Amazon × Drake</div><div class="role">Retail · Drop</div></div>
-      </div>
-      <div class="cell">
-        <video autoplay muted loop playsinline><source src="assets/videos/mcdonalds.mp4" type="video/mp4" /></video>
-        <div class="media-placeholder"><span>MCDONALDS · HBCU CAMPAIGN</span></div>
-        <div><div class="brand">McDonald's</div><div class="role">Culture · Film</div></div>
-      </div>
+
+      <!-- Flywheel SVG -->
+      <svg class="fw-svg" viewBox="0 0 560 560" aria-label="IP Flywheel diagram">
+        <!-- Rings -->
+        <circle class="ring draw" cx="280" cy="280" r="240" />
+        <circle class="ring draw delay-1" cx="280" cy="280" r="170" />
+        <circle class="orbit draw delay-2" cx="280" cy="280" r="205" />
+
+        <!-- Spokes (5) -->
+        <g stroke="currentColor">
+          <line class="spoke draw delay-1" x1="280" y1="280" x2="280" y2="40" />
+          <line class="spoke draw delay-2" x1="280" y1="280" x2="508" y2="207" />
+          <line class="spoke draw delay-3" x1="280" y1="280" x2="421" y2="505" />
+          <line class="spoke draw delay-4" x1="280" y1="280" x2="139" y2="505" />
+          <line class="spoke draw delay-5" x1="280" y1="280" x2="52" y2="207" />
+        </g>
+
+        <!-- Surface nodes -->
+        <g>
+          <circle class="node" cx="280" cy="60" r="36" />
+          <text x="280" y="65" text-anchor="middle" font-size="14">FILM</text>
+
+          <circle class="node" cx="494" cy="211" r="36" />
+          <text x="494" y="216" text-anchor="middle" font-size="14">GAME</text>
+
+          <circle class="node" cx="410" cy="478" r="36" />
+          <text x="410" y="483" text-anchor="middle" font-size="14">AR/XR</text>
+
+          <circle class="node" cx="150" cy="478" r="36" />
+          <text x="150" y="483" text-anchor="middle" font-size="14">IRL</text>
+
+          <circle class="node" cx="66" cy="211" r="36" />
+          <text x="66" y="216" text-anchor="middle" font-size="14">SOUND</text>
+        </g>
+
+        <!-- Core IP -->
+        <circle class="node-core" cx="280" cy="280" r="72" />
+        <text x="280" y="275" text-anchor="middle" font-size="16" font-weight="900" fill="#000">ORIGINAL</text>
+        <text x="280" y="294" text-anchor="middle" font-size="16" font-weight="900" fill="#000">IP</text>
+
+      </svg>
     </div>
-
     <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>18 / 22</span></div>
   </section>
 
@@ -1360,7 +1440,7 @@
         </div>
         <h4>Jaquay Saintil</h4>
         <div class="role">Creative Director</div>
-        <p class="blurb">13+ years driving measurable growth for global brands. Builds 360° platforms blending cultural storytelling with AI. Speaker, awards judge, original-IP advocate.</p>
+        <p class="blurb">Creative executive with global brand-building impact. Builds 360° platforms blending cultural storytelling with AI. Speaker, awards judge, original-IP advocate.</p>
       </article>
 
       <!-- 3 · Cortney Johnson -->

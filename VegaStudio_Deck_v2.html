@@ -1,0 +1,1631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>VEGA STUDIO — Pitch · IP for the AI Era</title>
+<meta name="description" content="Vega Studio is an IP studio for the AI era. Flagship: Gen-Synth." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Space+Grotesk:wght@500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     VEGA STUDIO — Pitch Deck v1
+     IP-first narrative · Flagship: GEN-SYNTH
+     ========================================================= */
+  :root{
+    --bg:#0b0b0b;
+    --bg-2:#111111;
+    --ink:#ffffff;
+    --ink-dim:#9aa0a6;
+    --rule:rgba(255,255,255,.18);
+    --accent:#E5A8B5;       /* dusty mauve-pink with peach warmth */
+    --accent-2:#49e3c7;     /* mint for metrics */
+    --accent-3:#ffe066;     /* yellow for highlights */
+    --genSynth-1:#33d6ff;   /* gen-synth cyan */
+    --genSynth-2:#ffb84d;   /* gen-synth amber */
+    --slide-pad: clamp(32px, 4vw, 80px);
+    --h-display: clamp(44px, 8.5vw, 150px);
+    --h-jumbo: clamp(56px, 11vw, 200px);
+    --h-1: clamp(32px, 5vw, 74px);
+    --h-2: clamp(22px, 3vw, 44px);
+    --body: clamp(15px, 1.15vw, 20px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-weight:500;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  body{scroll-behavior:smooth}
+  a{color:inherit}
+  ::selection{background:var(--accent);color:#000}
+
+  /* -------- Scroll container (slide snap) -------- */
+  .deck{
+    scroll-snap-type: y mandatory;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
+  .slide{
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    position: relative;
+    display:flex;
+    flex-direction:column;
+    padding: var(--slide-pad);
+    padding-bottom: calc(var(--slide-pad) + 48px);  /* keep chrome row clear */
+    overflow:hidden;
+  }
+
+  /* -------- Slide footer chrome (matches PDF: left:section, center:studio, right:date) -------- */
+  .chrome{
+    position:absolute;
+    inset:auto 0 0 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 14px var(--slide-pad);
+    min-height: 44px;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    border-top: 1px solid var(--rule);
+  }
+  .chrome > span{display:inline-flex;align-items:center;line-height:1.4;min-height:18px}
+  .chrome .c-center{letter-spacing:.3em}
+
+  /* -------- Page progress & side nav -------- */
+  .progress{
+    position:fixed; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(to right, var(--accent) var(--p,0%), transparent 0);
+    z-index: 50;
+    pointer-events:none;
+    transition: background .3s;
+  }
+  .nav-dots{
+    position:fixed; right:16px; top:50%; transform:translateY(-50%);
+    z-index:40; display:flex; flex-direction:column; gap:8px;
+  }
+  .nav-dots button{
+    width:8px; height:8px; border-radius:50%; border:1px solid var(--rule);
+    background:transparent; cursor:pointer; padding:0;
+    transition: all .25s;
+  }
+  .nav-dots button.active{background:var(--accent); border-color:var(--accent); transform:scale(1.3)}
+  .nav-dots button:hover{border-color:var(--ink)}
+
+  /* -------- Reveal system (scroll-triggered) -------- */
+  .reveal{opacity:0; transform:translateY(24px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1; transform:none}
+  .reveal-word{opacity:0; transform:translateY(30px); display:inline-block; transition: all .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal-word.in{opacity:1; transform:none}
+  .delay-1{transition-delay:.12s}.delay-2{transition-delay:.24s}.delay-3{transition-delay:.36s}
+  .delay-4{transition-delay:.48s}.delay-5{transition-delay:.6s}.delay-6{transition-delay:.72s}
+
+  /* -------- Typography -------- */
+  h1,h2,h3,h4{font-family:"Inter";font-weight:900;letter-spacing:-.01em;line-height:.92}
+  .display{font-size:var(--h-display);font-weight:900;letter-spacing:-.02em;line-height:.9;text-transform:none}
+  .jumbo{font-size:var(--h-jumbo);font-weight:900;letter-spacing:-.03em;line-height:.88}
+  .section-tag{font-family:"Inter";font-weight:900;font-size:clamp(48px,10vw,180px);letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+  .kicker{font-family:"Inter";font-weight:700;letter-spacing:.32em;text-transform:uppercase;font-size:12px;color:var(--ink-dim)}
+  .eyebrow{font-family:"Space Grotesk";font-weight:700;letter-spacing:.26em;text-transform:uppercase;font-size:11px;color:var(--accent)}
+  .serif{font-family:"DM Serif Display", serif;font-weight:400}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;letter-spacing:.05em}
+  .coral{color:var(--accent)}
+  .mint{color:var(--accent-2)}
+  .yellow{color:var(--accent-3)}
+  .dim{color:var(--ink-dim)}
+
+  /* -------- Slide 01 : Cover -------- */
+  .s-cover{justify-content:center;align-items:center;text-align:center}
+  .v-mark{
+    width:clamp(344px, 36vw, 600px); aspect-ratio:1/1;
+    display:grid; place-items:center; position:relative;
+    animation: vBreathe 4.5s ease-in-out infinite;
+  }
+  .v-mark img{width:100%;height:100%;object-fit:contain}
+  .v-mark.fallback{border:6px solid #fff;border-radius:50%}
+  .v-mark.fallback span{font-family:"DM Serif Display";font-style:italic;font-size:60%;line-height:1;transform:translateY(3%)}
+  /* End slide uses a slightly smaller mark to leave room for headline + links */
+  .s-end .v-mark{width:clamp(220px, 22vw, 360px)}
+  @keyframes vBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+  /* -------- Slide : Section divider (big word, bottom-left) -------- */
+  .s-section{justify-content:flex-end}
+  .s-section .section-tag{color:var(--ink)}
+  .s-section .num{position:absolute;top:var(--slide-pad);right:var(--slide-pad);font-family:"Space Grotesk";font-weight:700;letter-spacing:.1em;color:var(--ink-dim);font-size:13px}
+
+  /* -------- Big statement slide -------- */
+  .s-statement{justify-content:center}
+  .s-statement .stmt{font-size:clamp(32px,5.4vw,90px);font-weight:900;line-height:.96;letter-spacing:-.02em;max-width:18ch}
+  .s-statement .stmt-small{font-size:clamp(22px,2.6vw,44px);color:var(--ink-dim);margin-top:22px;max-width:34ch;font-weight:600;line-height:1.18}
+
+  /* -------- Market stats grid -------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px}
+  .stat{border-left:1px solid var(--rule);padding:14px 0 14px 22px}
+  .stat .num{font-family:"Inter";font-weight:900;font-size:clamp(42px,5vw,88px);letter-spacing:-.02em;line-height:.95}
+  .stat .num.coral{color:var(--accent)}
+  .stat .num.mint{color:var(--accent-2)}
+  .stat .num.yellow{color:var(--accent-3)}
+  .stat p{margin-top:10px;color:var(--ink-dim);font-size:14px;line-height:1.45}
+  @media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* -------- IP FLYWHEEL (slide 8) -------- */
+  .flywheel{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .fw-copy h3{font-size:clamp(28px,3.4vw,56px);line-height:1.02;margin-bottom:20px}
+  .fw-copy p{color:var(--ink-dim);max-width:36ch;font-size:17px;line-height:1.55}
+  .fw-copy .key{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+  .fw-copy .key b{color:var(--ink);display:block}
+  .fw-copy .key li{list-style:none;padding-left:14px;border-left:2px solid var(--accent);color:var(--ink-dim);font-size:14px;line-height:1.4}
+  .fw-svg{width:100%;aspect-ratio:1/1;max-width:560px;margin:0 auto}
+  .fw-svg text{font-family:"Inter";font-weight:700;fill:var(--ink)}
+  .fw-svg .ring{fill:none;stroke:var(--rule);stroke-width:1}
+  .fw-svg .orbit{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:4 6;opacity:.4}
+  .fw-svg .node{fill:#111;stroke:var(--ink);stroke-width:1.2}
+  .fw-svg .node-core{fill:var(--accent);stroke:var(--accent)}
+  .fw-svg .spoke{stroke:var(--ink);stroke-width:1;opacity:.25}
+  .fw-svg .draw{stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1)}
+  .flywheel.in .fw-svg .draw{stroke-dashoffset:0}
+  .fw-svg .pulse{transform-origin:center;transform-box:fill-box}
+  .flywheel.in .fw-svg .node-core{animation:pulse 2.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{filter:drop-shadow(0 0 0 var(--accent))}50%{filter:drop-shadow(0 0 18px var(--accent))}}
+  @media (max-width:900px){.flywheel{grid-template-columns:1fr}}
+
+  /* -------- Gen-Synth hero -------- */
+  .s-genSynth{padding:0;color:#fff}
+  .gs-hero{position:absolute;inset:0;overflow:hidden}
+  .gs-hero video,.gs-hero img{width:100%;height:100%;object-fit:cover}
+  .gs-hero::after{content:"";position:absolute;inset:0;background:
+    radial-gradient(60% 80% at 30% 60%, rgba(0,0,0,.15), rgba(0,0,0,.85) 80%),
+    linear-gradient(0deg,rgba(0,0,0,.7),transparent 60%)}
+  .gs-lock{position:absolute;z-index:2;left:var(--slide-pad);bottom:calc(var(--slide-pad) + 40px);max-width:780px}
+  .gs-lock h2{font-size:clamp(54px,9vw,160px);line-height:.86;letter-spacing:-.03em}
+  .gs-lock h2 span{color:var(--genSynth-1);font-style:italic;font-family:"DM Serif Display";font-weight:400}
+  .gs-lock p{margin-top:22px;font-size:18px;max-width:52ch;color:#e9e9e9}
+  .gs-badge{position:absolute;right:var(--slide-pad);top:var(--slide-pad);z-index:2;
+    display:flex;align-items:center;gap:10px;color:var(--genSynth-1);letter-spacing:.2em;font-size:12px;text-transform:uppercase}
+  .gs-badge::before{content:"";width:8px;height:8px;background:var(--genSynth-1);border-radius:50%;box-shadow:0 0 18px var(--genSynth-1);animation:blink 1.5s infinite}
+  @keyframes blink{50%{opacity:.3}}
+
+  /* -------- Split media slide -------- */
+  .s-split{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center}
+  .s-split .copy h3{font-size:clamp(30px,3.6vw,60px);line-height:1;margin-bottom:14px}
+  .s-split .copy .eyebrow{margin-bottom:14px}
+  .s-split .copy p{color:var(--ink-dim);font-size:17px;line-height:1.55;max-width:38ch}
+  .media-card{position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;border:1px solid var(--rule)}
+  .media-card video,.media-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:1}
+  /* Larger framed treatment used on Gen-Synth side panels (Slides 10, 12) */
+  .media-card.framed{
+    border-radius:22px;
+    box-shadow:0 24px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+    aspect-ratio:16/10;
+  }
+  .media-card .tag{position:absolute;left:12px;top:12px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.6);padding:6px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.25)}
+  /* Gen-Synth icon perimeter badge (Slide 12) — sits OUTSIDE the video frame */
+  .media-frame{ position:relative; }
+  .media-frame .gs-icon-perimeter{
+    position:absolute;
+    left:-3%;
+    bottom:-9%;
+    width:28%;
+    max-width:180px;
+    aspect-ratio:1/1;
+    object-fit:contain;
+    z-index:4;
+    border-radius:18px;
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,.65));
+  }
+  @media (max-width:900px){
+    .media-frame .gs-icon-perimeter{left:-2%;bottom:-12%;width:32%;max-width:140px}
+  }
+  .media-placeholder{position:absolute;inset:0;display:grid;place-items:center;background:repeating-linear-gradient(-45deg,#111,#111 10px,#0a0a0a 10px,#0a0a0a 20px);color:var(--ink-dim);font-size:12px;letter-spacing:.28em;text-transform:uppercase}
+  .media-placeholder::before{content:"[video]";position:absolute;top:12px;right:12px;color:var(--accent);font-size:10px;letter-spacing:.22em}
+
+  @media (max-width:900px){.s-split{grid-template-columns:1fr}}
+
+  /* -------- Layered media stack (Slide 10 — Gen-Synth World)
+     Video is the hero, fully visible. Other assets decorate the perimeter. -------- */
+  .media-stack{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/12;
+    min-height: 64vh;
+  }
+  .media-stack .ms-city{
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%);
+    width:78%;
+    aspect-ratio:16/9;
+    border-radius:18px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 24px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
+    z-index:2;
+  }
+  .media-stack .ms-city video,
+  .media-stack .ms-city img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
+  /* Breeze turnaround — anchored to bottom-left perimeter of the video */
+  .media-stack .ms-breeze{
+    position:absolute;
+    left:-2%;
+    bottom:-4%;
+    width:32%;
+    z-index:3;
+    filter: drop-shadow(0 18px 28px rgba(0,0,0,.6));
+    pointer-events:none;
+  }
+  .media-stack .ms-breeze img{
+    width:100%; height:auto; display:block;
+  }
+  /* Girl GIF — anchored to top-right perimeter, pops out of the video edge */
+  .media-stack .ms-girl{
+    position:absolute;
+    right:-3%;
+    top:4%;
+    width:22%;
+    aspect-ratio: 9/16;
+    z-index:3;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 18px 36px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.1);
+    background:#000;
+  }
+  .media-stack .ms-girl img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
+  @media (max-width:900px){
+    .media-stack{aspect-ratio:auto; min-height: 0;}
+    .media-stack .ms-city{position:relative;top:auto;left:auto;transform:none;width:100%;}
+    .media-stack .ms-breeze{left:-2%;bottom:-2%;width:30%}
+    .media-stack .ms-girl{right:-2%;top:-2%;width:26%}
+  }
+
+  /* -------- Traction metrics (Gen-Synth) -------- */
+  .traction{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;align-items:stretch;flex:1}
+  .traction .box{display:flex;flex-direction:column;justify-content:flex-end;border-left:1px solid var(--rule);padding:20px 0 20px 28px}
+  .traction .box .k{font-family:"DM Serif Display";font-size:clamp(70px,11vw,180px);line-height:1}
+  .traction .box .k.coral{color:var(--accent)}
+  .traction .box .k.mint{color:var(--accent-2)}
+  .traction .box .k.yellow{color:var(--accent-3)}
+  .traction .box p{font-size:15px;color:var(--ink-dim);margin-top:12px;line-height:1.4}
+  .traction .box h4{font-size:22px;margin-top:6px}
+  @media (max-width:900px){.traction{grid-template-columns:1fr}}
+
+  /* -------- Community gallery (5-photo mosaic: 4 landscapes + 1 portrait fill one frame) -------- */
+  /* Layout: 3 cols × 2 rows. Portrait spans the right column full height.
+     Four landscapes fill the left two columns in a 2×2 grid. */
+  .gallery{
+    display:grid;
+    grid-template-columns: 1fr 1fr 0.72fr;
+    grid-template-rows: 1fr 1fr;
+    gap:10px;
+    flex:1 1 0;
+    min-height:0;
+    width:100%;
+  }
+  .gallery .photo{
+    position:relative;
+    background:#0a0a0a;
+    border:1px solid var(--rule);
+    overflow:hidden;
+    min-width:0;
+    min-height:0;
+    transition: filter .4s, transform .4s;
+  }
+  .gallery .photo img{
+    display:block;
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+  }
+  /* Mosaic placement (5 photos) */
+  .gallery .photo:nth-child(1){ grid-area: 1 / 1 / 2 / 2; }   /* top-left landscape */
+  .gallery .photo:nth-child(2){ grid-area: 1 / 2 / 2 / 3; }   /* top-mid landscape */
+  .gallery .photo:nth-child(3){ grid-area: 2 / 1 / 3 / 2; }   /* bottom-left landscape */
+  .gallery .photo:nth-child(4){ grid-area: 1 / 3 / 3 / 4; }   /* right tall portrait (spans 2 rows) */
+  .gallery .photo:nth-child(5){ grid-area: 2 / 2 / 3 / 3; }   /* bottom-mid landscape */
+  /* Per-photo crop bias to keep faces visible after object-fit:cover */
+  .gallery .photo:nth-child(3) img{ object-position: 75% 30%; }   /* faces are upper-right */
+
+  .gallery .photo::after{
+    content:attr(data-label);
+    position:absolute;inset:auto 0 0 0;padding:14px 16px;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+    background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .gallery .photo:hover::after{opacity:1}
+  .gallery .photo:hover{transform:translateY(-2px)}
+
+  /* Placeholder fallback (kept for safety if photos fail to load) */
+  .gallery.placeholder div{
+    background:#1a1a1a;border:1px solid var(--rule);position:relative;overflow:hidden;
+  }
+  .gallery.placeholder div::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,#111,#111 10px,#0a0a0a 10px,#0a0a0a 20px)}
+  .gallery.placeholder div::after{content:attr(data-label);position:absolute;inset:auto 0 0 0;padding:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+
+  @media (max-width:900px){
+    .gallery{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4, 1fr)}
+    .gallery .photo:nth-child(1){ grid-area: 1 / 1 / 2 / 2; }
+    .gallery .photo:nth-child(2){ grid-area: 1 / 2 / 2 / 3; }
+    .gallery .photo:nth-child(3){ grid-area: 2 / 1 / 3 / 2; }
+    .gallery .photo:nth-child(4){ grid-area: 4 / 1 / 5 / 3; min-height:240px; }
+    .gallery .photo:nth-child(5){ grid-area: 2 / 2 / 3 / 3; }
+  }
+
+  /* -------- Slate roadmap -------- */
+  .slate{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1}
+  .slate .ip{position:relative;border:1px solid var(--rule);border-radius:8px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;transition:all .4s;background:#0d0d0d;overflow:hidden}
+  .slate .ip:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .slate .ip .year{font-family:"Space Grotesk";font-weight:700;letter-spacing:.2em;font-size:11px;color:var(--accent)}
+  .slate .ip .bg{position:absolute;inset:0;opacity:.15;background:radial-gradient(circle at 30% 30%, var(--c1,#444), transparent 60%)}
+  .slate .ip h3{font-size:34px;line-height:.95;margin:14px 0 10px;position:relative;z-index:1}
+  .slate .ip p{color:var(--ink-dim);font-size:14px;line-height:1.5;position:relative;z-index:1}
+  .slate .ip .status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;border:1px solid var(--rule);color:var(--ink-dim);margin-top:14px;align-self:flex-start;position:relative;z-index:1}
+  .slate .ip.flagship{border-color:var(--genSynth-1);box-shadow:0 0 0 1px var(--genSynth-1), 0 0 28px rgba(51,214,255,.15)}
+  .slate .ip.flagship .year{color:var(--genSynth-1)}
+  .slate .ip.flagship .status{border-color:var(--genSynth-1);color:var(--genSynth-1)}
+  .slate .ip.flagship h3 span{color:var(--genSynth-1)}
+  /* Dim non-flagship cards to signal "in development" vs flagship "live" */
+  .slate .ip:not(.flagship){
+    opacity:.55;
+    filter:saturate(.7);
+    transition:opacity .35s, filter .35s, transform .35s;
+  }
+  .slate .ip:not(.flagship)::after{
+    content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.4));
+  }
+  .slate .ip:not(.flagship):hover{opacity:.92;filter:saturate(1)}
+  .slate .ip:not(.flagship):hover::after{background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.1))}
+  @media (max-width:900px){.slate{grid-template-columns:repeat(2,1fr)}}
+
+  /* -------- Proof wall -------- */
+  .proof{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;flex:1 1 0;min-height:0}
+  .proof .cell{position:relative;background:#0f0f0f;border:1px solid var(--rule);overflow:hidden;display:flex;align-items:flex-end;padding:18px;min-height:0}
+  .proof .cell::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,.9)); z-index:1}
+  .proof .cell > *{position:relative;z-index:2}
+  .proof .cell .brand{font-size:clamp(22px,2.6vw,38px);font-weight:900;letter-spacing:-.01em}
+  .proof .cell .role{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-top:6px}
+  .proof .cell.hero{grid-row:1/3}
+  .proof .cell video,.proof .cell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;z-index:0;background:#000}
+
+  /* -------- Agentic Creative Pipeline (PDF-reference layout) -------- */
+  .pipeline-h2{
+    font-size:clamp(28px,3.6vw,56px);font-weight:900;line-height:1;letter-spacing:-.01em;
+    text-decoration:none;color:#fff;
+  }
+  .pipeline-h2 em{
+    font-family:"DM Serif Display",serif;font-style:italic;font-weight:400;
+    border-bottom:1.5px solid rgba(255,80,80,.45);padding-bottom:1px;
+  }
+  .pipe-tree{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:18px;flex-shrink:0}
+  .ai-agent-pill{
+    background:#fff;color:#666;padding:10px 30px;border-radius:30px;
+    font-weight:900;letter-spacing:.36em;font-size:12px;text-transform:uppercase;
+    box-shadow:0 1px 0 rgba(0,0,0,.06);
+  }
+  .branch-svg{width:100%;max-width:1100px;height:60px;margin-top:-1px}
+  .branch-svg path{stroke:rgba(255,255,255,.25);stroke-width:1;fill:none}
+
+  .pipe-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1 1 0;min-height:0;margin-top:0}
+  .pipe-card{
+    background:transparent;border-radius:0;padding:0;
+    position:relative;
+    display:flex;flex-direction:column;align-items:stretch;
+    color:#000;transition:transform .3s;min-height:0;
+  }
+  .pipe-card:hover{transform:translateY(-3px)}
+  .pipe-cat{
+    font-weight:900;letter-spacing:.36em;color:#9aa0a6;font-size:12px;text-transform:uppercase;
+    position:absolute;top:8%;left:0;right:0;text-align:center;z-index:2;
+    pointer-events:none;
+  }
+  .pipe-card .card-img{
+    flex:1 1 0;min-height:0;width:100%;height:100%;
+    object-fit:contain;display:block;
+  }
+  .pipe-icons{display:grid;gap:10px;flex:1 1 0;min-height:0;width:100%;align-content:center;justify-items:center;align-items:center}
+  /* TEXT card: 5 icons in a 3+2 layout, second row centered */
+  .icons-5{grid-template-columns:repeat(6,1fr)}
+  .icons-5 > :nth-child(1){grid-column:1 / 3}
+  .icons-5 > :nth-child(2){grid-column:3 / 5}
+  .icons-5 > :nth-child(3){grid-column:5 / 7}
+  .icons-5 > :nth-child(4){grid-column:2 / 4}
+  .icons-5 > :nth-child(5){grid-column:4 / 6}
+  /* IMAGE & VIDEO: 2x2 */
+  .icons-4{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr)}
+  /* SOUND: 1x2 row, larger */
+  .icons-2{grid-template-columns:repeat(2,1fr);grid-template-rows:1fr;gap:14px}
+
+  /* App-icon tile: rounded square, brand bg, centered SVG mark.
+     For "transparent" marks (OpenAI, Midjourney, Gemini, DALL·E) the bg is none. */
+  .app-icon{
+    width:100%;aspect-ratio:1/1;max-width:84px;
+    border-radius:22%;
+    background:var(--bg,transparent);
+    display:grid;place-items:center;position:relative;overflow:hidden;
+    box-shadow: var(--shadow, 0 1px 2px rgba(0,0,0,.04));
+  }
+  .app-icon.no-bg{background:transparent;box-shadow:none}
+  .app-icon svg{width:62%;height:62%;display:block}
+  .app-icon.bigger svg{width:74%;height:74%}
+  /* Subtle 3D highlight on colored tiles only */
+  .app-icon.has-bg::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(160deg, rgba(255,255,255,.18), transparent 45%);
+    mix-blend-mode:screen;
+  }
+  /* SOUND icons are bigger */
+  .icons-2 .app-icon{max-width:130px}
+  .icons-2 .app-icon svg{width:55%;height:55%}
+
+  .pipe-caption{
+    text-align:center;margin-top:20px;color:#fff;font-size:clamp(14px,1.2vw,18px);
+    font-weight:500;letter-spacing:.005em;flex-shrink:0;
+  }
+  .pipe-caption em{
+    font-family:"DM Serif Display",serif;font-style:italic;font-weight:400;
+    border-bottom:1.5px solid rgba(255,80,80,.45);padding-bottom:1px;
+  }
+  @media (max-width:900px){.pipe-cards{grid-template-columns:repeat(2,1fr)}}
+
+  /* -------- Partners logo grid -------- */
+  .partners{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;align-items:center;margin-top:28px}
+  .partners .logo{aspect-ratio:2.5/1;background:#0f0f0f;border:1px solid var(--rule);display:grid;place-items:center;color:#bbb;font-family:"Space Grotesk";font-weight:700;letter-spacing:.06em;font-size:13px;transition:all .3s}
+  .partners .logo:hover{background:#fff;color:#000;border-color:#fff}
+  @media (max-width:900px){.partners{grid-template-columns:repeat(3,1fr)}}
+
+  /* -------- Background video w/ vignette — matches gs-hero exactly (Slide 3 pattern) -------- */
+  .slide-bg-video{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+  .slide-bg-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:1}
+  .slide-bg-video::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(60% 80% at 30% 60%, rgba(0,0,0,.15), rgba(0,0,0,.85) 80%),
+      linear-gradient(0deg, rgba(0,0,0,.7), transparent 60%);
+  }
+  .slide.has-bg-video > *:not(.slide-bg-video){position:relative;z-index:2}
+
+  /* -------- Background image w/ stronger vignette (Slides 12, 13 pattern) -------- */
+  .slide-bg-image{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+  .slide-bg-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+  .slide-bg-image::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at center, rgba(0,0,0,.45) 30%, rgba(0,0,0,.92) 95%),
+      linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.65));
+  }
+  .slide.has-bg-image > *:not(.slide-bg-image){position:relative;z-index:2}
+
+  /* -------- Half-bleed video pane (Slide 10 pattern) -------- */
+  .s-half{
+    padding:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:stretch;
+    gap:0;
+  }
+  .s-half .pane-copy{padding:var(--slide-pad);display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+  .s-half .pane-media{position:relative;height:100%;overflow:hidden;background:#000}
+  .s-half .pane-media video,.s-half .pane-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* vignette feathering the inner edge of the media pane */
+  .s-half .pane-media::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(90deg, var(--bg) 0%, rgba(11,11,11,.65) 8%, transparent 28%, transparent 72%, rgba(11,11,11,.55) 95%, var(--bg) 100%),
+      radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 100%);
+  }
+  .s-half .pane-media .media-placeholder{z-index:1}
+  /* When the media is on the LEFT and the copy on the right, flip the gradient */
+  .s-half.media-left{grid-template-columns:1fr 1fr}
+  .s-half.media-left .pane-media{grid-column:1}
+  .s-half.media-left .pane-copy{grid-column:2}
+
+  /* -------- Strong left-side vignette over a full-bleed video (Slide 12) -------- */
+  .s-genSynth.vignette-left .gs-hero::after{
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.85) 28%, rgba(0,0,0,.55) 50%, rgba(0,0,0,.15) 75%, rgba(0,0,0,0) 100%),
+      linear-gradient(0deg, rgba(0,0,0,.55), transparent 50%);
+  }
+  /* Scale the underlying video down so there's more black on the left */
+  .s-genSynth.vignette-left .gs-hero video{
+    width:75%;height:100%;left:auto;right:0;object-fit:cover;object-position:right center;
+  }
+
+  /* -------- Team cluster (Why Us — connected bubble layout, B&W photos) -------- */
+  .team-cluster{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
+    flex:1 1 0;min-height:0;width:100%;
+    padding:0 1%;
+    position:relative;
+  }
+  /* Decorative background layer: blurred lavender connector blobs + accent pills */
+  .team-cluster .bg-decor{
+    position:absolute;inset:0;pointer-events:none;z-index:0;overflow:visible;
+  }
+  .team-cluster .bg-decor .blob{
+    position:absolute;border-radius:60px;
+    background:radial-gradient(ellipse at center, rgba(229,168,181,.55), rgba(229,168,181,.15));
+    filter:blur(28px);
+    opacity:.85;
+  }
+  .team-cluster .bg-decor .pill{
+    position:absolute;
+    width:36px;height:14px;
+    background:rgba(229,168,181,.42);
+    border-radius:5px;
+  }
+  /* Member sits above the decor */
+  .team-cluster .member{
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:transparent;border:none;padding:0;min-width:0;flex:1 1 0;
+    transition:transform .35s ease;
+    position:relative;z-index:1;
+  }
+  .team-cluster .member:hover{transform:translateY(-4px)}
+
+  /* Per-member size + y-offset — five distinct values for an organic, abstract layout */
+  .team-cluster .member:nth-child(1){margin-top:30px;  flex:1.05}
+  .team-cluster .member:nth-child(2){margin-top:140px; flex:.85}
+  .team-cluster .member:nth-child(3){margin-top:0;     flex:1.15}
+  .team-cluster .member:nth-child(4){margin-top:90px;  flex:.78}
+  .team-cluster .member:nth-child(5){margin-top:60px;  flex:.95}
+
+  .team-cluster .member .photo{
+    aspect-ratio:1/1;border-radius:50%;
+    overflow:hidden;background:#161616;position:relative;
+    border:none;
+    box-shadow:0 14px 36px rgba(0,0,0,.55);
+    transition:box-shadow .35s ease, transform .35s ease;
+    margin:0 auto;
+  }
+  /* Five distinct circle sizes — no member dominates */
+  .team-cluster .member:nth-child(1) .photo{width:clamp(160px, 18vw, 250px)}
+  .team-cluster .member:nth-child(2) .photo{width:clamp(120px, 13vw, 180px)}
+  .team-cluster .member:nth-child(3) .photo{width:clamp(180px, 20vw, 280px)}
+  .team-cluster .member:nth-child(4) .photo{width:clamp(110px, 12vw, 170px)}
+  .team-cluster .member:nth-child(5) .photo{width:clamp(140px, 15vw, 210px)}
+
+  /* Two of the five wear an accent ring (1st + 3rd, the larger photos) */
+  .team-cluster .member:nth-child(1) .photo,
+  .team-cluster .member:nth-child(3) .photo{
+    box-shadow:
+      0 0 0 6px rgba(229,168,181,.22),
+      0 0 0 2px var(--accent),
+      0 18px 44px rgba(0,0,0,.55);
+  }
+
+  /* B&W treatment on every photo — grayscale + slight contrast lift */
+  .team-cluster .member .photo img{
+    width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+    filter:grayscale(1) contrast(1.06);
+    transition:filter .4s ease;
+  }
+  .team-cluster .member:hover .photo img{
+    filter:grayscale(0) contrast(1);
+  }
+
+  /* Fallback initials only render when .no-photo flag is set */
+  .team-cluster .member .photo .fallback{
+    position:absolute;inset:0;display:none;place-items:center;
+    font-family:"DM Serif Display";font-style:italic;font-size:48px;color:var(--ink-dim);
+  }
+  .team-cluster .member.no-photo .photo .fallback{display:grid}
+  .team-cluster .member h4{
+    font-size:clamp(14px,1.1vw,17px);line-height:1.15;letter-spacing:-.005em;
+    margin-top:18px;
+  }
+  .team-cluster .member .role{
+    font-family:"Space Grotesk";font-weight:700;font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent);margin-top:6px;
+  }
+  .team-cluster .member .blurb{
+    color:var(--ink-dim);font-size:12px;line-height:1.5;margin-top:10px;
+    max-width:26ch;
+  }
+  /* TABLET 700-1099px — abandon the scatter, switch to a clean equal 5-col grid */
+  @media (max-width:1099px) and (min-width:700px){
+    .team-cluster{
+      display:grid;grid-template-columns:repeat(5,1fr);
+      align-items:start;justify-content:initial;gap:24px 14px;padding:0;
+    }
+    .team-cluster .member{
+      margin-top:0 !important;flex:none;min-width:0;
+      align-items:center;text-align:center;
+    }
+    .team-cluster .member .photo{
+      width:100% !important;max-width:130px;margin:0 auto;
+      box-shadow:0 14px 36px rgba(0,0,0,.55);
+    }
+    /* Keep ring treatment on members 1 + 3 in tablet view */
+    .team-cluster .member:nth-child(1) .photo,
+    .team-cluster .member:nth-child(3) .photo{
+      box-shadow:0 0 0 5px rgba(229,168,181,.22), 0 0 0 2px var(--accent), 0 14px 30px rgba(0,0,0,.55);
+    }
+    .team-cluster .member h4{font-size:14px;margin-top:14px}
+    .team-cluster .member .role{font-size:9px;letter-spacing:.2em}
+    .team-cluster .member .blurb{font-size:11.5px;line-height:1.45;max-width:100%;margin-top:8px}
+    .team-cluster .bg-decor{display:none}
+  }
+
+  /* PHONE ≤699px — 2-col wrap */
+  @media (max-width:699px){
+    .team-cluster{
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:start;justify-content:initial;gap:28px 16px;padding:0;
+    }
+    .team-cluster .member{margin-top:0 !important;flex:none;min-width:0;align-items:center;text-align:center}
+    .team-cluster .member .photo{
+      width:100% !important;max-width:130px;margin:0 auto;
+      box-shadow:0 14px 30px rgba(0,0,0,.55);
+    }
+    .team-cluster .member:nth-child(1) .photo,
+    .team-cluster .member:nth-child(3) .photo{
+      box-shadow:0 0 0 4px rgba(229,168,181,.22), 0 0 0 2px var(--accent), 0 12px 26px rgba(0,0,0,.55);
+    }
+    .team-cluster .member h4{font-size:14px;margin-top:12px}
+    .team-cluster .member .role{font-size:9px;letter-spacing:.2em}
+    .team-cluster .member .blurb{font-size:11.5px;line-height:1.45;max-width:100%;margin-top:8px}
+    .team-cluster .bg-decor{display:none}
+  }
+
+  /* TINY ≤380px — 1-col stack */
+  @media (max-width:380px){
+    .team-cluster{grid-template-columns:1fr;gap:24px}
+    .team-cluster .member .photo{max-width:160px}
+  }
+
+  /* -------- Founder photo (Why Us slide) -------- */
+  .founder-photo{
+    width:clamp(180px,18vw,260px);aspect-ratio:1/1;border-radius:50%;
+    overflow:hidden;background:#161616;border:1px solid var(--rule);position:relative;
+    flex-shrink:0;
+  }
+  .founder-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .founder-photo .photo-fallback{
+    position:absolute;inset:0;display:none;place-items:center;
+    font-family:"DM Serif Display";font-style:italic;font-size:84px;color:var(--ink-dim);
+  }
+  .founder-photo.no-photo .photo-fallback{display:grid}
+
+  /* -------- The Ask -------- */
+  .ask{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center;flex:1 1 0;min-height:0}
+  .ask .amount{font-family:"Inter";font-weight:900;font-size:clamp(64px,9vw,160px);line-height:.88;letter-spacing:-.03em}
+  .ask .amount small{font-family:"DM Serif Display";font-weight:400;font-style:italic;font-size:36%;color:var(--accent);display:block;margin-bottom:14px;letter-spacing:.02em}
+  .ask .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:32px;color:var(--ink-dim);font-size:13px}
+  .ask .meta > div{padding-left:16px;border-left:1px solid var(--rule)}
+  .ask .meta b{color:#fff;display:block;font-size:15px;margin-bottom:6px;letter-spacing:-.005em}
+  .ask .meta span.dim{display:block;font-size:12px;line-height:1.4}
+  .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%}
+  .donut{width:min(85%,360px);aspect-ratio:1/1;position:relative}
+  .donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .donut .center{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .donut .center b{font-family:"Inter";font-size:24px;font-weight:900;line-height:1}
+  .donut .center span{color:var(--ink-dim);font-size:10px;letter-spacing:.26em;text-transform:uppercase;margin-top:6px;display:block}
+  .legend{display:grid;grid-template-columns:1fr;gap:12px;font-size:13px;width:100%;max-width:380px}
+  .legend span{display:flex;align-items:center;gap:12px;color:var(--ink-dim);line-height:1.35}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block;flex-shrink:0}
+  @media (max-width:900px){.ask{grid-template-columns:1fr}}
+
+  /* -------- Contact / end -------- */
+  .s-end{text-align:center;align-items:center;justify-content:center;gap:26px}
+  .s-end h1{font-size:clamp(44px,6vw,96px);letter-spacing:-.02em}
+  .s-end .links{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;font-size:15px;color:var(--ink-dim)}
+  .s-end .links a{color:#fff;border-bottom:1px solid var(--rule);padding-bottom:4px}
+
+  /* -------- Keyboard hints -------- */
+  .hint{
+    position:fixed;top:16px;right:60px;z-index:20;
+    font-size:10px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;
+    display:flex;gap:14px;align-items:center;
+    opacity:.55;transition:opacity .3s;
+    background:rgba(11,11,11,.6);padding:6px 12px;border-radius:20px;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    border:1px solid var(--rule);
+  }
+  .hint:hover{opacity:1}
+  .hint kbd{border:1px solid var(--rule);padding:2px 6px;border-radius:3px;font-family:ui-monospace,monospace;color:#ccc;font-size:9px}
+
+  /* -------- Utility layout -------- */
+  .flex-col{display:flex;flex-direction:column;flex:1}
+  .spacer{flex:1}
+  .row{display:flex;gap:20px;align-items:baseline}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--rule);border-radius:100px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);width:max-content}
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+  /* -------- Print-friendly -------- */
+  @media print{
+    .deck{height:auto;overflow:visible}
+    .slide{min-height:100vh;page-break-after:always}
+    .nav-dots,.hint,.progress{display:none}
+  }
+
+  /* =========================================================
+     MOBILE — comprehensive responsive pass (≤ 820px)
+     Strategy: let slides grow vertically (no fixed 100vh), scale type down,
+     stack split layouts, hide nav-dots + keyboard hint (touch device),
+     trim chrome padding, soften animations, ensure no content overlaps.
+     ========================================================= */
+  @media (max-width: 820px){
+    :root{
+      --slide-pad: clamp(20px, 5vw, 36px);
+    }
+
+    /* Allow slides to size to content on mobile (avoid 100vh overflow w/ browser chrome) */
+    .deck{scroll-snap-type:none;height:auto;overflow-y:visible}
+    body{height:auto;overflow-y:auto}
+    .slide{
+      height:auto;min-height:100dvh;max-height:none;
+      padding-bottom: calc(var(--slide-pad) + 60px);
+    }
+
+    /* Hide desktop nav affordances on touch devices */
+    .nav-dots, .hint{display:none}
+    .progress{height:3px}
+
+    /* Section dividers — shrink the giant words so they don't overflow */
+    .section-tag{font-size:clamp(48px, 14vw, 90px)}
+    .s-section .num{font-size:11px;letter-spacing:.2em}
+
+    /* Big statement headlines */
+    .s-statement{justify-content:flex-start;padding-top:14vh}
+    .s-statement .stmt{font-size:clamp(28px, 8vw, 48px); line-height:1.02}
+    .s-statement .stmt-small{font-size:clamp(15px, 4vw, 22px); line-height:1.35; max-width:100%}
+
+    /* Cover + end V-mark */
+    .v-mark{width:clamp(140px, 38vw, 220px) !important}
+    .s-end .v-mark{width:clamp(120px, 32vw, 180px) !important}
+    .s-end h1{font-size:clamp(32px, 8vw, 48px)}
+    .s-end .links{flex-direction:column;gap:14px}
+
+    /* Display headline scaling */
+    .display{font-size:clamp(30px, 8vw, 48px) !important}
+    .jumbo{font-size:clamp(40px, 11vw, 64px)}
+
+    /* Market stats on Slide 7 — collapse to 2 cols */
+    .stats{grid-template-columns:repeat(2,1fr); gap:18px}
+    .stat{padding-left:14px}
+    .stat .num{font-size:clamp(34px, 9vw, 48px)}
+    .stat p{font-size:12px}
+
+    /* Flywheel: stack copy above SVG */
+    .flywheel{grid-template-columns:1fr;gap:24px}
+    .fw-copy h3{font-size:clamp(22px, 6vw, 32px)}
+    .fw-copy p{font-size:14px}
+    .fw-copy .key{grid-template-columns:1fr 1fr;gap:10px}
+    .fw-copy .key li{font-size:12px}
+    .fw-svg{max-width:340px}
+
+    /* Gen-Synth full-bleed hero — scale headline */
+    .gs-lock h2{font-size:clamp(38px, 10vw, 64px) !important}
+    .gs-lock p{font-size:14px}
+    .gs-badge{top:auto;bottom:96px;right:var(--slide-pad);font-size:10px}
+
+    /* Gen-Synth split slides — copy above media */
+    .s-split{grid-template-columns:1fr; gap:20px; align-items:flex-start}
+    .s-split .copy h3{font-size:clamp(26px, 7vw, 40px)}
+    .s-split .copy p{font-size:14px}
+    .media-card.framed{border-radius:14px; aspect-ratio:16/10}
+
+    /* Slide 12 left-vignette: keep readable on mobile, shrink video to 100% */
+    .s-genSynth.vignette-left .gs-hero video{width:100%;object-position:center}
+    .s-genSynth.vignette-left .gs-hero::after{
+      background:linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.7) 60%, rgba(0,0,0,.92) 100%);
+    }
+
+    /* Traction (Slide 11) — stack 1 col, smaller numbers */
+    .traction{grid-template-columns:1fr;gap:18px}
+    .traction .box{padding-left:18px}
+    .traction .box .k{font-size:clamp(56px, 16vw, 96px)}
+    .traction .box h4{font-size:18px}
+
+    /* Community gallery — reuse existing 2-col mobile rule, just tighten */
+    .gallery{grid-template-columns:1fr 1fr; gap:8px}
+    .gallery .photo:nth-child(4){min-height:200px}
+
+    /* Slate cards — 1 col on small phones, 2 on tablets */
+    .slate{grid-template-columns:1fr;gap:14px}
+    .slate .ip{min-height:280px;padding:18px}
+    .slate .ip h3{font-size:26px}
+
+    /* Pipeline: 2x2 cards instead of 4 */
+    .pipe-cards{grid-template-columns:repeat(2,1fr); gap:12px}
+    .pipeline-h2{font-size:clamp(28px, 8vw, 44px) !important}
+    .branch-svg{display:none}
+    .pipe-tree{margin-top:8px}
+    .pipe-caption{font-size:13px; line-height:1.45}
+    .pipe-card{padding:14px}
+    .pipe-cat{font-size:11px;letter-spacing:.28em}
+
+    /* Proof Wall — collapse 5-cell mosaic to a 2-col stack */
+    .proof{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:8px}
+    .proof .cell{min-height:180px;padding:12px}
+    .proof .cell.hero{grid-column:1 / -1; grid-row:1 / 2}
+    .proof .cell .brand{font-size:18px}
+    .proof .cell .role{font-size:9px}
+
+    /* Team cluster handled by its own tiered media queries above */
+
+    /* The Ask — stack everything */
+    .ask{grid-template-columns:1fr; gap:32px}
+    .ask .amount{font-size:clamp(56px, 16vw, 96px)}
+    .ask .meta{grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+    .ask .meta > div{padding-left:12px}
+    .donut{width:min(70%, 260px)}
+    .legend{font-size:12px;max-width:100%}
+
+    /* Chrome footer — slimmer on mobile */
+    .chrome{padding:10px var(--slide-pad);min-height:38px;font-size:9px;letter-spacing:.16em}
+    .chrome .c-center{display:none}  /* drop "VEGA STUDIO" center text on narrow screens */
+
+    /* Slide 3 background video — keep but lighten the vignette so video is visible */
+    .slide-bg-video::after{
+      background:
+        radial-gradient(60% 80% at 30% 60%, rgba(0,0,0,.25), rgba(0,0,0,.85) 80%),
+        linear-gradient(0deg, rgba(0,0,0,.7), transparent 55%);
+    }
+
+    /* Reduce-motion friendly on mobile — slow down transitions slightly */
+    .reveal, .reveal-word{transition-duration:.65s}
+  }
+
+  /* Very narrow phones (≤ 380px) — extra type squeeze (team handled by its own rule above) */
+  @media (max-width: 380px){
+    .s-statement .stmt{font-size:clamp(24px, 8vw, 36px)}
+    .display{font-size:clamp(26px, 8vw, 38px) !important}
+    .section-tag{font-size:clamp(40px, 14vw, 64px)}
+    .stats{grid-template-columns:1fr}
+    .pipe-cards{grid-template-columns:1fr}
+    .proof{grid-template-columns:1fr;grid-template-rows:auto}
+    .proof .cell.hero{grid-column:1}
+    .ask .meta{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<nav class="nav-dots" id="nav"></nav>
+<div class="hint"><kbd>↓</kbd> Next &nbsp;·&nbsp; <kbd>↑</kbd> Back &nbsp;·&nbsp; <kbd>F</kbd> Fullscreen</div>
+
+<main class="deck" id="deck">
+
+  <!-- ==============================================
+       SLIDE 01 — COVER
+       ============================================== -->
+  <section class="slide s-cover" data-title="Cover" data-section="OPEN">
+    <div class="v-mark reveal"><img src="assets/images/vega-logo.png" alt="Vega Studio" onerror="this.parentElement.classList.add('fallback');this.outerHTML='<span>V</span>'"></div>
+    <div class="chrome">
+      <span class="c-left">PITCH</span>
+      <span class="c-center">VEGA STUDIO</span>
+      <span class="c-right">04.24.26</span>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 02 — SECTION: THE SHIFT
+       ============================================== -->
+  <section class="slide s-section" data-title="The Shift" data-section="ACT 1">
+    <span class="num reveal">THE SHIFT</span>
+    <h2 class="section-tag reveal"><span class="reveal-word">THE</span> <span class="reveal-word delay-1">SHIFT</span></h2>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>01 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 03 — SINGLE MEDIUM IS OVER
+       ============================================== -->
+  <section class="slide s-statement" data-title="Single medium is over" data-section="ACT 1">
+    <div>
+      <p class="eyebrow reveal">The cultural mandate</p>
+      <h2 class="stmt reveal delay-1">Single-medium storytelling is over.</h2>
+      <p class="stmt-small reveal delay-3">Audiences don't watch. They <span class="coral">immerse themselves</span>. Brands now need stories that live across <span class="coral">film, games, AR, physical, and music</span>.</p>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>02 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 04 — REPOSITIONING: AI-NATIVE STUDIO FOR IP ERA
+       (background video with vignette overlay)
+       ============================================== -->
+  <section class="slide s-statement has-bg-video" data-title="Vega is an AI-native studio" data-section="ACT 1">
+    <div class="slide-bg-video">
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/slide3-bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div style="align-self:flex-end;max-width:46ch;text-align:right">
+      <h2 class="stmt reveal delay-1" style="max-width:none;line-height:1.05">Vega is an <span class="coral">AI-native studio</span> for the IP era.</h2>
+      <p class="stmt-small reveal delay-3" style="max-width:none;font-size:clamp(14px,1.05vw,18px);font-weight:500;line-height:1.55;margin-top:22px;color:rgba(255,255,255,.78);letter-spacing:.005em">We create <b style="color:#fff">original storytelling and worldbuilding</b> designed to live across film, gaming, AR, and physical product. Built on agentic AI pipelines that meaningfully accelerate creative production.</p>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>03 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 05 — ONE WORLD, FIVE SURFACES
+       ============================================== -->
+  <section class="slide s-statement" data-title="One world, five surfaces" data-section="ACT 1">
+    <div>
+      <p class="eyebrow reveal">The distribution model</p>
+      <h2 class="stmt reveal delay-1">Original IP, distributed across multiple formats — <span class="coral">film, games, AR, physical experiences, and music.</span></h2>
+      <div class="row reveal delay-3" style="gap:44px;margin-top:60px;flex-wrap:wrap">
+        <span class="kicker">AI</span><span class="dim">·</span>
+        <span class="kicker">GAMING</span><span class="dim">·</span>
+        <span class="kicker">XR</span><span class="dim">·</span>
+        <span class="kicker">IRL</span><span class="dim">·</span>
+        <span class="kicker">SOUND</span>
+      </div>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>04 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 17 — SECTION: THE ENGINE
+       ============================================== -->
+  <section class="slide s-section" data-title="The Engine" data-section="ACT 5">
+    <span class="num reveal">THE ENGINE</span>
+    <h2 class="section-tag reveal">
+      <span class="reveal-word">THE</span>
+      <span class="reveal-word delay-1">ENGINE</span>
+    </h2>
+    <p class="reveal delay-2 dim" style="max-width:46ch;margin-top:20px;font-size:18px;line-height:1.5">
+      The studio that funds the IP. Trusted by the biggest brands in the world.
+    </p>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>05 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 18 — AGENTIC CREATIVE PIPELINE (matches PDF reference)
+       ============================================== -->
+  <section class="slide flex-col" data-title="Agentic Pipeline" data-section="ACT 5">
+    <p class="eyebrow reveal" style="margin-bottom:6px">Direct partnerships · Cutting-edge access</p>
+    <h2 class="pipeline-h2 reveal delay-1"><em>Agentic</em> Creative Pipeline</h2>
+
+    <div class="pipe-tree reveal delay-1">
+      <div class="ai-agent-pill">AI AGENT</div>
+      <svg class="branch-svg" viewBox="0 0 1100 60" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Vertical drop from pill, horizontal trunk, then four drops to each card -->
+        <path d="M550,0 L550,18 L137.5,18 L137.5,58 M412.5,18 L412.5,58 M687.5,18 L687.5,58 M962.5,18 L962.5,58 M137.5,18 L962.5,18"/>
+      </svg>
+    </div>
+
+    <div class="pipe-cards reveal delay-2">
+      <article class="pipe-card">
+        <div class="pipe-cat">TEXT</div>
+        <img class="card-img" src="assets/images/pipe-text.png" alt="Text AI partners — OpenAI, Claude, Gemini, Mistral, Perplexity">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">IMAGE</div>
+        <img class="card-img" src="assets/images/pipe-image.png" alt="Image AI partners — Firefly, Midjourney, DALL·E, Photoshop">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">VIDEO</div>
+        <img class="card-img" src="assets/images/pipe-video.png" alt="Video AI partners — After Effects, Runway, Luma, Pika">
+      </article>
+      <article class="pipe-card">
+        <div class="pipe-cat">SOUND</div>
+        <img class="card-img" src="assets/images/pipe-sound.png" alt="Sound AI partners — ElevenLabs, Suno">
+      </article>
+    </div>
+
+    <p class="pipe-caption reveal delay-3">Personal partnerships with every lab on this page — early access, beta features, and a seat at the table on the future of <em>agentic</em> creative production.</p>
+
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>06 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 19 — PROOF WALL (compressed brand work)
+       ============================================== -->
+  <section class="slide flex-col" data-title="Proof Wall" data-section="ACT 5">
+    <p class="eyebrow reveal">The proof</p>
+    <h2 class="display reveal delay-1" style="max-width:18ch;margin-top:8px">Trusted by the <span class="coral">biggest brands.</span></h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:14px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Our studio services have powered campaigns for the world's leading brands — the revenue engine that funds the IP slate.
+    </p>
+
+    <div class="proof reveal delay-3" style="margin-top:26px">
+      <div class="cell hero">
+        <video autoplay muted loop playsinline><source src="assets/videos/jordan-brand.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>JORDAN · FLAGSHIP RETAIL CGI</span></div>
+        <div>
+          <div class="brand">Jordan Brand</div>
+          <div class="role">CGI · Retail · Worldbuilding</div>
+        </div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/nike-airmax.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>NIKE AIRMAX</span></div>
+        <div><div class="brand">Nike Airmax</div><div class="role">AI · CGI Film</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/hov.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>BOOK OF HOV</span></div>
+        <div><div class="brand">Book of HOV</div><div class="role">Cultural Install</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/amazon-drake.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>AMAZON + DRAKE</span></div>
+        <div><div class="brand">Amazon × Drake</div><div class="role">Retail · Drop</div></div>
+      </div>
+      <div class="cell">
+        <video autoplay muted loop playsinline><source src="assets/videos/mcdonalds.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>MCDONALDS · HBCU CAMPAIGN</span></div>
+        <div><div class="brand">McDonald's</div><div class="role">Culture · Film</div></div>
+      </div>
+    </div>
+
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>07 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 09 — SECTION: THE FLAGSHIP
+       ============================================== -->
+  <section class="slide s-section" data-title="The IP" data-section="ACT 3">
+    <span class="num reveal">THE IP</span>
+    <h2 class="section-tag reveal">
+      <span class="reveal-word">THE</span>
+      <span class="reveal-word delay-1">IP</span>
+    </h2>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>08 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 10 — GEN-SYNTH HERO
+       ============================================== -->
+  <section class="slide s-genSynth" data-title="Gen-Synth Hero" data-section="ACT 3">
+    <div class="gs-hero">
+      <!-- VIDEO PLACEHOLDER: gen-synth anime trailer -->
+      <video autoplay muted loop playsinline poster="assets/images/gensynth-poster.jpg">
+        <source src="assets/videos/gensynth-hero.mp4" type="video/mp4" />
+      </video>
+      <div class="media-placeholder" style="background:linear-gradient(135deg,#0b2230,#1a0b12);opacity:.9">
+        <div style="text-align:center">
+          <div style="font-size:58px;color:var(--genSynth-1);font-weight:900;letter-spacing:-.02em">GEN-SYNTH</div>
+          <div style="color:var(--genSynth-2);letter-spacing:.6em;margin-top:8px">合成生成</div>
+          <div style="margin-top:30px;font-size:10px;letter-spacing:.28em;color:rgba(255,255,255,.45)">DROP HERO VIDEO →&nbsp; assets/videos/gensynth-hero.mp4</div>
+        </div>
+      </div>
+    </div>
+    <div class="gs-badge">● LIVE · IP 001</div>
+    <div class="gs-lock reveal">
+      <p class="eyebrow" style="color:var(--genSynth-1)">IP 001 · The Flagship</p>
+      <h2>GEN<span>–</span>SYNTH<br><span>合成生成</span></h2>
+      <p>An AI-native anime universe. Film. Mobile game. Physical drops. A community-driven storyworld powered by an agentic pipeline — <b>proof that one small team, one engine, can build a cross-platform IP at studio scale.</b></p>
+    </div>
+    <div class="chrome" style="color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.2)"><span></span><span class="c-center">VEGA STUDIO</span><span>09 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 11 — GEN-SYNTH: THE WORLD (isolated rounded frame)
+       ============================================== -->
+  <section class="slide s-split" data-title="Gen-Synth World" data-section="ACT 3">
+    <div class="copy reveal">
+      <p class="eyebrow" style="color:var(--genSynth-1)">The World</p>
+      <h3>A diaspora city in <span style="color:var(--genSynth-1);font-style:italic;font-family:'DM Serif Display';font-weight:400">2125</span>.</h3>
+      <p>Gen-Synth follows a crew of style-native rebels navigating a surveillance-state metropolis. The pilot, <b>built in 48 hours</b>, was crafted entirely on our native AI workflows — designed for reactive, dynamic storytelling that adapts as the universe grows.</p>
+      <div class="tag" style="margin-top:22px">Pilot · 48hr Build</div>
+    </div>
+    <div class="media-stack reveal delay-2">
+      <div class="ms-city">
+        <video autoplay muted loop playsinline><source src="assets/videos/gensynth-pilot.mp4" type="video/mp4" /></video>
+      </div>
+      <div class="ms-breeze">
+        <img src="assets/images/breeze-style.png" alt="Breeze — character style turnaround" />
+      </div>
+      <div class="ms-girl">
+        <img src="assets/images/girl.gif" alt="Gen-Synth pilot — protagonist" />
+      </div>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>10 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 12 — GEN-SYNTH: THE FILM + TRACTION
+       ============================================== -->
+  <section class="slide flex-col" data-title="Gen-Synth Film + Traction" data-section="ACT 3">
+    <p class="eyebrow reveal" style="color:var(--genSynth-1)">The Film · Validated</p>
+    <h2 class="display reveal delay-1" style="margin-top:10px">Gen:48 Official Finalist.</h2>
+    <p class="reveal delay-2" style="max-width:56ch;margin-top:18px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Selected from thousands of entries by Runway's Gen:48 competition — our AI-native pilot
+      validated in the festival circuit and across global screenings.
+    </p>
+
+    <div class="traction">
+      <div class="box">
+        <div class="k coral reveal delay-3">04</div>
+        <h4 class="reveal delay-4">Global Screenings</h4>
+        <p class="reveal delay-5">London · Washington · Atlanta · Baltimore</p>
+      </div>
+      <div class="box">
+        <div class="k mint reveal delay-4">100K+</div>
+        <h4 class="reveal delay-5">Organic Impressions</h4>
+        <p class="reveal delay-6">Across editorial, LinkedIn, TikTok, and partner channels</p>
+      </div>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>11 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 13 — GEN-SYNTH: GAME + MARKETPLACE
+       (split layout w/ framed video; Game background as backdrop with vignette)
+       ============================================== -->
+  <section class="slide s-split has-bg-image" data-title="Gen-Synth Game" data-section="ACT 3">
+    <div class="slide-bg-image">
+      <img src="assets/images/game-background.jpg" alt="Gen-Synth game environment backdrop" />
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow" style="color:var(--genSynth-1)">The Game · Mobile</p>
+      <h3>A playable layer of <span style="color:var(--genSynth-1);font-style:italic;font-family:'DM Serif Display';font-weight:400">style, culture,</span> and worldbuilding.</h3>
+      <p>Gen-Synth Mobile extends the universe into an endless-runner + creator-marketplace hybrid. Players earn currency, customize avatars, and trade drops from featured creators — a new in-game economy driven by community.</p>
+
+      <div class="grid-2" style="margin-top:22px;gap:14px">
+        <div>
+          <p class="kicker coral">Playable</p>
+          <p style="font-size:13px;color:var(--ink-dim);margin-top:6px;line-height:1.45">Endless-runner core loop, arcade-cabinet mode at IRL events.</p>
+        </div>
+        <div>
+          <p class="kicker coral">Marketplace</p>
+          <p style="font-size:13px;color:var(--ink-dim);margin-top:6px;line-height:1.45">Creator-made jackets, kicks &amp; accessories. Built-in economy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="media-frame reveal delay-2">
+      <div class="media-card framed">
+        <video autoplay muted loop playsinline><source src="assets/videos/gensynth-game.mp4" type="video/mp4" /></video>
+        <div class="media-placeholder"><span>GEN-SYNTH MOBILE · CREATOR MARKETPLACE</span></div>
+        <div class="tag">Mobile · Marketplace</div>
+      </div>
+      <img class="gs-icon-perimeter" src="assets/images/gen-synth-icon.png" alt="Gen-Synth icon" />
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>12 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 14 — GEN-SYNTH: PRODUCT (PRESQ)
+       (split layout w/ framed product video; Creator Marketplace image as backdrop with vignette)
+       ============================================== -->
+  <section class="slide s-split has-bg-image" data-title="Gen-Synth Product" data-section="ACT 3">
+    <div class="slide-bg-image">
+      <img src="assets/images/creator-marketplace.jpg" alt="Creator marketplace backdrop" />
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow" style="color:var(--genSynth-1)">The Product · Physical</p>
+      <h3>Digital IP → physical artifacts.</h3>
+      <p>In partnership with <b>PRESQ</b> — a 3D printing &amp; product innovation lab — Gen-Synth extends into custom character figures, collectibles, and fashion-driven drops. Digital IP, tangible fandom.</p>
+      <div class="tag" style="margin-top:22px">Partnership · PRESQ</div>
+    </div>
+    <div class="media-card framed reveal delay-2">
+      <video autoplay muted loop playsinline><source src="assets/videos/gensynth-product.mp4" type="video/mp4" /></video>
+      <div class="media-placeholder"><span>GEN-SYNTH × PRESQ · PRODUCT RENDER</span></div>
+      <div class="tag">PRESQ · Physical</div>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>13 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 15 — GEN-SYNTH: COMMUNITY
+       ============================================== -->
+  <section class="slide flex-col" data-title="Gen-Synth Community" data-section="ACT 3">
+    <p class="eyebrow reveal" style="color:var(--genSynth-1)">The Community</p>
+    <h2 class="display reveal delay-1" style="max-width:14ch;margin-top:10px">Community. <span style="color:var(--genSynth-1)">IRL.</span></h2>
+    <p class="reveal delay-2" style="max-width:56ch;margin-top:14px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Arcade activations turn the IP into an in-real-life playable artifact. From NYC events to partner pop-ups, Gen-Synth lives beyond the screen.
+    </p>
+
+    <div class="gallery reveal delay-3" style="margin-top:28px">
+      <figure class="photo" data-label="Arcade Activation · NYC">
+        <img src="assets/images/community-01.jpg" alt="Gen-Synth arcade activation in NYC" loading="lazy">
+      </figure>
+      <figure class="photo" data-label="Community Night">
+        <img src="assets/images/community-02.jpg" alt="Gen-Synth community night" loading="lazy">
+      </figure>
+      <figure class="photo" data-label="Creator Lounge">
+        <img src="assets/images/community-03.jpg" alt="Gen-Synth creator lounge" loading="lazy">
+      </figure>
+      <figure class="photo" data-label="Pop-Up · Playtest">
+        <img src="assets/images/community-04.jpg" alt="Gen-Synth pop-up playtest" loading="lazy">
+      </figure>
+      <figure class="photo" data-label="Screening · NYC">
+        <img src="assets/images/community-05.jpg" alt="Gen-Synth premiere screening" loading="lazy">
+      </figure>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>14 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 16 — THE SLATE (IP roadmap)
+       ============================================== -->
+  <section class="slide flex-col" data-title="The Slate" data-section="ACT 4">
+    <p class="eyebrow reveal">The Slate</p>
+    <h2 class="display reveal delay-1" style="max-width:16ch;margin-top:8px">One flagship. <span class="coral">A building pipeline.</span></h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:14px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Gen-Synth is the proof. The slate is the business. Three additional worlds in development — each built to the same flywheel.
+    </p>
+
+    <div class="slate reveal delay-3" style="margin-top:30px">
+      <article class="ip flagship" style="--c1:#33d6ff">
+        <div class="bg"></div>
+        <div>
+          <div class="year">2025 — LIVE</div>
+          <h3>GEN<span>–</span>SYNTH</h3>
+          <p>AI-native anime universe. Film + game + product + community all shipped.</p>
+        </div>
+        <span class="status">Anime Series · Game · Product</span>
+      </article>
+
+      <article class="ip" style="--c1:#ff5a3c">
+        <div class="bg"></div>
+        <div>
+          <div class="year">2026 — IN DEV</div>
+          <h3>CRUDDY.AI</h3>
+          <p>AI-native, short-form comedic content paired with a live-action film franchise, companion game, and creator-education platform — one universe across screen, play, and skill.</p>
+        </div>
+        <span class="status">Short-form · Film · Game · Edu</span>
+      </article>
+
+      <article class="ip" style="--c1:#b46bff">
+        <div class="bg"></div>
+        <div>
+          <div class="year">2026 — IN DEV</div>
+          <h3>IN NBA TERMS</h3>
+          <p>An educational platform and book series that teaches business, leadership, and culture through the lens of basketball. Curriculum + publication, made for the next generation.</p>
+        </div>
+        <span class="status">Slate · Edu + Publishing</span>
+      </article>
+
+      <article class="ip" style="--c1:#49e3c7">
+        <div class="bg"></div>
+        <div>
+          <div class="year">2027 — HORIZON</div>
+          <h3>THE FEED</h3>
+          <p>An invite-only IRL networking platform for the biopharma industry — connecting senior leaders, scientists, and creatives through curated in-person convenings.</p>
+        </div>
+        <span class="status">Horizon · Network · Pharma</span>
+      </article>
+    </div>
+    <p class="mono dim reveal delay-4" style="margin-top:24px">/ Names &amp; years directional. Slate subject to strategic partner alignment.</p>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>15 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 06 — SECTION: THE OPPORTUNITY
+       ============================================== -->
+  <section class="slide s-section" data-title="The Opportunity" data-section="ACT 2">
+    <span class="num reveal">THE OPPORTUNITY</span>
+    <h2 class="section-tag reveal">
+      <span class="reveal-word">THE</span>
+      <span class="reveal-word delay-1">OPPORTUNITY</span>
+    </h2>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>16 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 07 — MARKET STATS
+       ============================================== -->
+  <section class="slide" data-title="Market" data-section="ACT 2">
+    <p class="eyebrow reveal">The AI + IP convergence</p>
+    <h2 class="display reveal delay-1" style="margin-top:14px;max-width:14ch">A <span class="coral">paradigm shift</span>, not a trend.</h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:24px;color:var(--ink-dim);font-size:17px;line-height:1.55">
+      Generative AI has collapsed the cost of world-building. The IP that wins the next decade will be built natively for transmedia — not licensed into it.
+      <span class="dim">/ All figures directional · sources available on request.</span>
+    </p>
+
+    <div class="stats reveal delay-3">
+      <div class="stat"><div class="num coral">$2.4T</div><p>Global entertainment &amp; media market by 2029 (PwC).</p></div>
+      <div class="stat"><div class="num mint">10–50×</div><p>Cost + speed reduction from AI-native creative pipelines.</p></div>
+      <div class="stat"><div class="num yellow">$200B</div><p>Global IP licensing market, growing 8% YoY.</p></div>
+      <div class="stat"><div class="num">88%</div><p>of Gen-Z expect branded IP to live across game + social + physical.</p></div>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>17 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 08 — THE IP FLYWHEEL (animated diagram)
+       ============================================== -->
+  <section class="slide" data-title="The IP Flywheel" data-section="ACT 2">
+    <p class="eyebrow reveal">Our thesis</p>
+    <h2 class="display reveal delay-1" style="margin-top:12px;max-width:18ch">The <span class="coral">IP Flywheel.</span></h2>
+
+    <div class="flywheel reveal delay-2" style="margin-top:30px">
+      <div class="fw-copy">
+        <h3>One IP. Every distribution channel.</h3>
+        <p>Our flywheel puts <b>original IP at the core</b> and pushes it across five distribution surfaces — film, game, AR, product, music. Each surface generates its own revenue stream and audience data that flows back into the IP. Studio services fund R&amp;D. The IP compounds.</p>
+
+        <ul class="key">
+          <li><b>Anchor</b><br>Original IP at the core</li>
+          <li><b>Surfaces</b><br>5 distribution channels</li>
+          <li><b>Engine</b><br>AI-native production</li>
+          <li><b>Flywheel</b><br>Distribution → revenue → IP</li>
+        </ul>
+      </div>
+
+      <!-- Flywheel SVG -->
+      <svg class="fw-svg" viewBox="0 0 560 560" aria-label="IP Flywheel diagram">
+        <!-- Rings -->
+        <circle class="ring draw" cx="280" cy="280" r="240" />
+        <circle class="ring draw delay-1" cx="280" cy="280" r="170" />
+        <circle class="orbit draw delay-2" cx="280" cy="280" r="205" />
+
+        <!-- Spokes (5) -->
+        <g stroke="currentColor">
+          <line class="spoke draw delay-1" x1="280" y1="280" x2="280" y2="40" />
+          <line class="spoke draw delay-2" x1="280" y1="280" x2="508" y2="207" />
+          <line class="spoke draw delay-3" x1="280" y1="280" x2="421" y2="505" />
+          <line class="spoke draw delay-4" x1="280" y1="280" x2="139" y2="505" />
+          <line class="spoke draw delay-5" x1="280" y1="280" x2="52" y2="207" />
+        </g>
+
+        <!-- Surface nodes -->
+        <g>
+          <circle class="node" cx="280" cy="60" r="36" />
+          <text x="280" y="65" text-anchor="middle" font-size="14">FILM</text>
+
+          <circle class="node" cx="494" cy="211" r="36" />
+          <text x="494" y="216" text-anchor="middle" font-size="14">GAME</text>
+
+          <circle class="node" cx="410" cy="478" r="36" />
+          <text x="410" y="483" text-anchor="middle" font-size="14">AR/XR</text>
+
+          <circle class="node" cx="150" cy="478" r="36" />
+          <text x="150" y="483" text-anchor="middle" font-size="14">IRL</text>
+
+          <circle class="node" cx="66" cy="211" r="36" />
+          <text x="66" y="216" text-anchor="middle" font-size="14">SOUND</text>
+        </g>
+
+        <!-- Core IP -->
+        <circle class="node-core" cx="280" cy="280" r="72" />
+        <text x="280" y="275" text-anchor="middle" font-size="16" font-weight="900" fill="#000">ORIGINAL</text>
+        <text x="280" y="294" text-anchor="middle" font-size="16" font-weight="900" fill="#000">IP</text>
+
+      </svg>
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>18 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 20 — WHY US (team grid up to 5)
+       ============================================== -->
+  <section class="slide flex-col" data-title="Why Us · The Team" data-section="ACT 6">
+    <p class="eyebrow reveal">The team</p>
+    <h2 class="display reveal delay-1" style="max-width:18ch;margin-top:8px;font-size:clamp(36px,4.4vw,68px)">Built at the <span class="coral">intersection</span> of AI and culture.</h2>
+    <p class="reveal delay-2" style="max-width:60ch;margin-top:10px;color:var(--ink-dim);font-size:15px;line-height:1.5">
+      A small core team with deep brand fluency, AI craft, and cultural authority — partnered with the labs and creators shaping what comes next.
+    </p>
+
+    <div class="team-cluster reveal delay-3" style="margin-top:30px">
+
+      <!-- Lavender connector blobs + accent pills (purely decorative atmosphere) -->
+      <div class="bg-decor" aria-hidden="true">
+        <span class="blob" style="top:35%;left:14%;width:260px;height:90px;transform:rotate(-22deg)"></span>
+        <span class="blob" style="top:18%;left:38%;width:220px;height:80px;transform:rotate(8deg)"></span>
+        <span class="blob" style="top:55%;left:46%;width:280px;height:90px;transform:rotate(-14deg)"></span>
+        <span class="blob" style="top:38%;right:18%;width:200px;height:75px;transform:rotate(20deg)"></span>
+        <span class="pill" style="top:18%;left:6%;transform:rotate(-30deg)"></span>
+        <span class="pill" style="top:60%;right:7%;transform:rotate(20deg)"></span>
+        <span class="pill" style="bottom:6%;left:34%;transform:rotate(-25deg)"></span>
+        <span class="pill" style="top:48%;left:32%;transform:rotate(15deg);opacity:.55"></span>
+      </div>
+
+      <!-- 1 · Founder (lead card) -->
+      <article class="member lead">
+        <div class="photo">
+          <img src="assets/images/founder.jpg" alt="Charles Ceej Johnson Jr." onerror="this.style.display='none';this.parentElement.parentElement.classList.add('no-photo')">
+          <span class="fallback">CJ</span>
+        </div>
+        <h4>Charles "Ceej" Johnson Jr.</h4>
+        <div class="role">Founder · CD/CT</div>
+        <p class="blurb">Creative Director &amp; Creative Technologist. Partnered with Meta, Runway, Flora AI on next-gen tooling. Decade inside Google, Netflix, Nike, Amazon, Intel.</p>
+      </article>
+
+      <!-- 2 · Jaquay Saintil -->
+      <article class="member">
+        <div class="photo">
+          <img src="assets/images/team-02.jpg" alt="Jaquay Saintil" onerror="this.style.display='none';this.parentElement.parentElement.classList.add('no-photo')">
+          <span class="fallback">JS</span>
+        </div>
+        <h4>Jaquay Saintil</h4>
+        <div class="role">Creative Director</div>
+        <p class="blurb">Creative executive with global brand-building impact. Builds 360° platforms blending cultural storytelling with AI. Speaker, awards judge, original-IP advocate.</p>
+      </article>
+
+      <!-- 3 · Cortney Johnson -->
+      <article class="member">
+        <div class="photo">
+          <img src="assets/images/team-03.jpg" alt="Cortney Johnson" onerror="this.style.display='none';this.parentElement.parentElement.classList.add('no-photo')">
+          <span class="fallback">CJ</span>
+        </div>
+        <h4>Cortney Johnson</h4>
+        <div class="role">Account Director</div>
+        <p class="blurb">Previously Dazed, Alexander Wang, and Tory Burch. Brings fashion and editorial fluency to client partnerships and the IP pipeline.</p>
+      </article>
+
+      <!-- 4 · Calvary Rodgers -->
+      <article class="member">
+        <div class="photo">
+          <img src="assets/images/team-04.jpg" alt="Calvary Rodgers" onerror="this.style.display='none';this.parentElement.parentElement.classList.add('no-photo')">
+          <span class="fallback">CR</span>
+        </div>
+        <h4>Calvary Rodgers</h4>
+        <div class="role">AI Ethicist · Product</div>
+        <p class="blurb">Google Cloud AI safety on Gemini, Imagen, and Veo. UPenn CS+AI. Previously stewarded a $320M+ portfolio at Google.org. 6× Ivy track champion.</p>
+      </article>
+
+      <!-- 5 · Clifton Wilson -->
+      <article class="member">
+        <div class="photo">
+          <img src="assets/images/team-05.jpg" alt="Clifton Wilson" onerror="this.style.display='none';this.parentElement.parentElement.classList.add('no-photo')">
+          <span class="fallback">CW</span>
+        </div>
+        <h4>Clifton Wilson</h4>
+        <div class="role">Designer · Founder</div>
+        <p class="blurb">10 years across graphic, apparel, and digital. Founder &amp; CD of Ajaar — product, e-commerce, illustration. Afro-futurist POV throughout.</p>
+      </article>
+
+    </div>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>19 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 21 — THE ASK
+       ============================================== -->
+  <section class="slide flex-col" data-title="The Ask" data-section="ACT 6">
+    <p class="eyebrow reveal">The ask</p>
+    <h2 class="display reveal delay-1" style="margin-top:8px">We're raising a <span class="coral">Pre-Seed Round</span>.</h2>
+
+    <div class="ask reveal delay-2">
+      <div>
+        <div class="amount">
+          <small>Pre-Seed · Equity</small>
+          $<span id="ask-amount">1.5</span>M
+        </div>
+        <div class="meta">
+          <div><b>18 mo runway</b><span class="dim">Operating window</span></div>
+          <div><b>3 new IPs in dev</b><span class="dim">Slate expansion</span></div>
+          <div><b>Gen-Synth → Season 2</b><span class="dim">Flagship scale-up</span></div>
+        </div>
+        <p style="margin-top:30px;color:var(--ink-dim);font-size:14px;max-width:46ch;line-height:1.5">
+          Funds productize the <b>IP Flywheel</b>: scale Gen-Synth into season 2, stand up the agentic pipeline as internal product, and fund the next three slate titles.
+        </p>
+      </div>
+
+      <div class="donut-wrap">
+        <div class="donut">
+          <svg viewBox="0 0 42 42">
+            <!-- Background ring -->
+            <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+            <!-- Segments: IP Production 45% | Team 25% | Tech 15% | GTM 15% -->
+            <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="4"
+              stroke-dasharray="45 55" stroke-dashoffset="25" />
+            <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent-2)" stroke-width="4"
+              stroke-dasharray="25 75" stroke-dashoffset="-20" />
+            <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent-3)" stroke-width="4"
+              stroke-dasharray="15 85" stroke-dashoffset="-45" />
+            <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#fff" stroke-width="4"
+              stroke-dasharray="15 85" stroke-dashoffset="-60" />
+          </svg>
+          <div class="center"><div><b>$1.5M</b><span>Use of funds</span></div></div>
+        </div>
+
+        <div class="legend">
+          <span><i style="background:var(--accent)"></i> <b style="color:#fff;margin-right:8px">45%</b> IP Production · Gen-Synth S2 + slate</span>
+          <span><i style="background:var(--accent-2)"></i> <b style="color:#fff;margin-right:8px">25%</b> Team · Story, design, engineering</span>
+          <span><i style="background:var(--accent-3)"></i> <b style="color:#fff;margin-right:8px">15%</b> Tech · Agentic pipeline as product</span>
+          <span><i style="background:#fff"></i> <b style="color:#fff;margin-right:8px">15%</b> GTM · Partnerships, community, retail</span>
+        </div>
+      </div>
+    </div>
+    <p class="mono dim reveal delay-4" style="margin-top:28px">/ Pre-Seed · $1.5M target. Use of funds finalized with lead partner.</p>
+    <div class="chrome"><span></span><span class="c-center">VEGA STUDIO</span><span>20 / 22</span></div>
+  </section>
+
+  <!-- ==============================================
+       SLIDE 22 — CONTACT
+       ============================================== -->
+  <section class="slide s-end" data-title="Contact" data-section="ACT 6">
+    <div class="v-mark reveal"><img src="assets/images/vega-logo.png" alt="Vega Studio" onerror="this.parentElement.classList.add('fallback');this.outerHTML='<span>V</span>'"></div>
+    <h1 class="reveal delay-1">Let's build.</h1>
+    <div class="links reveal delay-2">
+      <a href="https://www.vega.earth">vega.earth</a>
+      <a href="https://instagram.com/ceej.vega">@ceej.vega</a>
+      <a href="mailto:ceej@vega.earth">ceej@vega.earth</a>
+    </div>
+    <p class="mono dim reveal delay-3" style="margin-top:30px">NEW YORK · 2026</p>
+    <div class="chrome"><span>END</span><span class="c-center">VEGA STUDIO</span><span>22 / 22</span></div>
+  </section>
+
+</main>
+
+<script>
+  // ---------- Build nav dots ----------
+  const deck = document.getElementById('deck');
+  const slides = [...document.querySelectorAll('.slide')];
+  const nav = document.getElementById('nav');
+  slides.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.title = s.dataset.title || ('Slide ' + (i+1));
+    b.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+    nav.appendChild(b);
+  });
+  const dots = [...nav.querySelectorAll('button')];
+
+  // ---------- Progress + active dot ----------
+  const progress = document.getElementById('progress');
+  function updateProgress(){
+    const p = deck.scrollTop / (deck.scrollHeight - deck.clientHeight);
+    progress.style.setProperty('--p', (p*100).toFixed(1)+'%');
+  }
+  deck.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // ---------- IntersectionObserver for reveals + active dot ----------
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        // Reveal any .reveal / .reveal-word descendants + section itself
+        e.target.querySelectorAll('.reveal, .reveal-word').forEach(el => el.classList.add('in'));
+        // Mark container for flywheel animations
+        e.target.classList.add('in');
+        // Update active dot
+        const idx = slides.indexOf(e.target);
+        dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+      }
+    });
+  }, {root: deck, threshold: 0.35});
+  slides.forEach(s => io.observe(s));
+
+  // ---------- Keyboard nav ----------
+  function currentIndex(){
+    const top = deck.scrollTop;
+    return slides.findIndex(s => s.offsetTop >= top - 4);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); slides[Math.min(currentIndex()+1, slides.length-1)].scrollIntoView({behavior:'smooth'}); }
+    if (['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); slides[Math.max(currentIndex()-1, 0)].scrollIntoView({behavior:'smooth'}); }
+    if (e.key === 'Home'){ slides[0].scrollIntoView({behavior:'smooth'}); }
+    if (e.key === 'End'){ slides[slides.length-1].scrollIntoView({behavior:'smooth'}); }
+    if (e.key.toLowerCase() === 'f'){
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // ---------- Split headlines into words for .reveal-word cascade ----------
+  document.querySelectorAll('[data-splitwords]').forEach(el => {
+    el.innerHTML = el.textContent.trim().split(/\s+/).map((w,i)=>`<span class="reveal-word delay-${Math.min(i,6)}">${w}</span>`).join(' ');
+  });
+
+  // ---------- Hide placeholders once real video loads. Video tiles use
+  //            object-fit:cover so vertical sources crop into full-bleed tiles.
+  document.querySelectorAll('video').forEach(v => {
+    const parent = v.parentElement;
+    const placeholder = parent && parent.querySelector('.media-placeholder');
+    let loaded = false;
+    v.addEventListener('loadeddata', () => {
+      loaded = true;
+      if (placeholder) placeholder.style.display = 'none';
+    });
+    const source = v.querySelector('source');
+    if (source) {
+      source.addEventListener('error', () => { v.style.display = 'none'; });
+    }
+    // Safety: after 1.8s with no data, drop the <video> so the placeholder shows
+    setTimeout(() => { if (!loaded) v.style.display = 'none'; }, 1800);
+  });
+</script>
+</body>
+</html>
